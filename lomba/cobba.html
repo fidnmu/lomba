@@ -1,611 +1,242 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gotong Royong Digital - Marketplace Jasa Desa</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-menu a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-menu a:hover {
-            color: #667eea;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 4rem 0;
-            color: white;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .search-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin: 2rem auto;
-            max-width: 600px;
-        }
-
-        .search-box {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .search-box input, .search-box select {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .search-box input:focus, .search-box select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .category-btn {
-            background: #f8f9ff;
-            border: 2px solid #e1e1e1;
-            padding: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .category-btn:hover, .category-btn.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .service-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .provider-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .provider-details h3 {
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .rating {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #ffa500;
-        }
-
-        .service-info h4 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #2d8f47;
-            margin: 1rem 0;
-        }
-
-        .contact-btn {
-            width: 100%;
-            background: linear-gradient(45deg, #2d8f47, #4caf50);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-        }
-
-        .close {
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .close:hover {
-            color: #333;
-        }
-
-        footer {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 4rem;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .search-box {
-                flex-direction: column;
-            }
-            
-            .nav-menu {
-                display: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketplace Jasa Warga Desa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">🏘️ Gotong Royong Digital</a>
-            <ul class="nav-menu">
-                <li><a href="#beranda">Beranda</a></li>
-                <li><a href="#jasa">Cari Jasa</a></li>
-                <li><a href="#daftar">Daftar Jasa</a></li>
-                <li><a href="#tentang">Tentang</a></li>
-            </ul>
-        </nav>
-    </header>
+<body class="bg-[#d8dddd] text-gray-800 font-sans">
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Marketplace Jasa Warga Desa</h1>
-                <p>Temukan dan tawarkan jasa dengan mudah di komunitas desa Anda</p>
-                
-                <div class="search-container">
-                    <h3 style="margin-bottom: 1rem; color: #333;">🔍 Cari Jasa yang Anda Butuhkan</h3>
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Cari jasa... (tukang, guru les, dll)">
-                        <select id="locationFilter">
-                            <option value="">Semua Lokasi</option>
-                            <option value="dusun-1">Dusun 1</option>
-                            <option value="dusun-2">Dusun 2</option>
-                            <option value="dusun-3">Dusun 3</option>
-                        </select>
-                        <button class="btn" onclick="searchServices()">Cari</button>
-                    </div>
-                    
-                    <div class="categories">
-                        <div class="category-btn active" onclick="filterCategory('semua')">🏠 Semua</div>
-                        <div class="category-btn" onclick="filterCategory('tukang')">🔨 Tukang</div>
-                        <div class="category-btn" onclick="filterCategory('pendidikan')">📚 Pendidikan</div>
-                        <div class="category-btn" onclick="filterCategory('pertanian')">🌾 Pertanian</div>
-                        <div class="category-btn" onclick="filterCategory('jahit')">✂️ Jahit</div>
-                        <div class="category-btn" onclick="filterCategory('lainnya')">⚙️ Lainnya</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <!-- NAVBAR -->
+  <header class="text-white shadow-md" style="background-color:#383b4e;">
+    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+      <h1 class="text-2xl font-bold">⾕ Marketplace Jasa Warga Desa</h1>
+      <nav class="space-x-4">
+        <a href="#" class="px-3 py-1 rounded-lg" style="background-color:#798e9d;">Beranda</a>
+        <a href="#" class="px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Aktif</a>
+        <a href="#" class="px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Riwayat</a>
+        <a href="#" class="px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Batal</a>
+        <a href="#" class="px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Favorit</a>
+      </nav>
+      <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:#bab2a7;">
+        <span class="text-[#383b4e]">👤</span>
+      </div>
+    </div>
+  </header>
 
-        <section class="container">
-            <div class="services-grid" id="servicesGrid">
-                <!-- Services akan ditampilkan di sini -->
-            </div>
-        </section>
-    </main>
+  <!-- HERO -->
+  <section class="relative bg-cover bg-center h-72" 
+    style="background-image: url('/lomba/sawah.jpg');">
+    <div class="absolute inset-0 bg-gradient-to-r from-[#383b4e]/70 to-[#798e9d]/50"></div>
+    <div class="relative z-10 max-w-3xl mx-auto text-center text-white py-16 px-6">
+      <h1 class="text-3xl font-bold mb-4">Temukan Jasa di Desa Anda</h1>
+      <p class="mb-6">
+        Hubungkan warga yang punya keahlian dengan tetangga yang membutuhkan. 
+        Cepat, mudah, dan menguatkan ekonomi lokal.
+      </p>
+      <button class="px-6 py-2 rounded-lg text-lg font-semibold" style="background-color:#798e9d;">
+        Cari Jasa
+      </button>
+    </div>
+  </section>
 
-    <!-- Modal Detail Jasa -->
-    <div id="serviceModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="modalContent">
-                <!-- Detail jasa akan ditampilkan di sini -->
-            </div>
+    <!-- SEARCH FILTER -->
+    <section class="max-w-6xl mx-auto px-4 py-6">
+    <div class="flex flex-col sm:flex-row gap-4 items-center">
+        <!-- Input Pencarian -->
+        <input type="text" placeholder="Cari: Tukang, Petani, Penjahit..."
+            class="flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
+        
+        <!-- Input Lokasi -->
+        <input type="text" placeholder="+ lokasi (contoh: Kebun Agung)"
+            class="flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
+        
+        <!-- Filter Harga -->
+        <div class="flex flex-col items-start">
+        <div class="flex items-center space-x-2">
+            <label for="rangeHarga" class="text-sm text-[#383b4e] font-medium">Harga</label>
+            
+            <input 
+            type="range" 
+            id="rangeHarga"
+            min="20000" max="500000" step="20000" value="20000"
+            class="w-40 accent-[#798e9d]"
+            oninput="document.getElementById('labelHarga').innerText = 'Rp.' + Number(this.value).toLocaleString('id-ID');"
+            >
+            
+            <span id="labelHarga" class="text-sm font-semibold text-[#383b4e]">Rp.50.000</span>
+        </div>
         </div>
     </div>
+    </section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Gotong Royong Digital. Marketplace Jasa Warga Desa untuk kemajuan bersama.</p>
+
+  <!-- KATEGORI -->
+  <section class="max-w-6xl mx-auto px-4">
+    <div class="flex gap-2 mb-6 overflow-x-auto">
+      <button class="px-4 py-1 text-white rounded-full" style="background-color:#798e9d;">Semua</button>
+      <button class="px-4 py-1 border rounded-full" style="border-color:#798e9d;">Tukang</button>
+      <button class="px-4 py-1 border rounded-full" style="border-color:#798e9d;">Guru Les</button>
+      <button class="px-4 py-1 border rounded-full" style="border-color:#798e9d;">Jahit</button>
+      <button class="px-4 py-1 border rounded-full" style="border-color:#798e9d;">Jasa Tani</button>
+      <button class="px-4 py-1 border rounded-full" style="border-color:#798e9d;">Lainnya</button>
+    </div>
+  </section>
+
+  <!-- LIST JASA -->
+  <section class="max-w-6xl mx-auto px-4 pb-12">
+    <!-- GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white rounded-xl shadow-md p-4">
+        <h3 class="font-bold text-lg">Rendi - Petani</h3>
+        <p class="text-sm mb-2">Ahli membajak, menanam, merawat, dan memanen padi. Desa Kebon Agung</p>
+        <p class="font-semibold mb-2" style="color:#798e9d;">Rp 80.000 / sesi</p>
+                <!-- Rating -->
+        <div class="flex items-center mb-4">
+          <span class="text-yellow-400">★★★★☆</span>
+          <span class="ml-2 text-sm text-gray-500">(4.7)</span>
         </div>
-    </footer>
+        <div class="flex justify-between items-center">
+          <button class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</button>
+          <button class="text-sm text-[#4c3d3e]">Ulas</button>
+          <button class="favorite-btn text-gray-400 text-lg">♥</button>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="bg-white rounded-xl shadow-md p-4">
+        <h3 class="font-bold text-lg">Pak Kio - Tukang Kayu</h3>
+        <p class="text-sm mb-2">Spesialis furniture, rak, dan perbaikan pintu/jendela. Desa Brani Wetan</p>
+        <p class="font-semibold mb-2" style="color:#798e9d;">Rp 150.000 / sesi</p>
+        <div class="flex items-center mb-4">
+          <span class="text-yellow-400">★★★★☆</span>
+          <span class="ml-2 text-sm text-gray-500">(4.9)</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <button class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</button>
+          <button class="text-sm text-[#4c3d3e]">Ulas</button>
+          <button class="favorite-btn text-gray-400 text-lg">♥</button>
+        </div>
+      </div>
 
-    <script>
-        // Data contoh jasa-jasa desa
-        const services = [
-            {
-                id: 1,
-                provider: "Pak Budi",
-                category: "tukang",
-                service: "Tukang Kayu",
-                description: "Berpengalaman 15 tahun dalam pembuatan mebel dan renovasi rumah",
-                price: "Rp 150.000/hari",
-                rating: 4.8,
-                reviews: 23,
-                location: "Dusun 1",
-                phone: "08123456789",
-                skills: ["Mebel", "Renovasi", "Atap"]
-            },
-            {
-                id: 2,
-                provider: "Bu Siti",
-                category: "pendidikan",
-                service: "Guru Les Matematika",
-                description: "Guru SD berpengalaman, siap membantu anak-anak belajar matematika",
-                price: "Rp 50.000/jam",
-                rating: 4.9,
-                reviews: 15,
-                location: "Dusun 2",
-                phone: "08234567890",
-                skills: ["Matematika SD", "Bahasa Indonesia", "IPA"]
-            },
-            {
-                id: 3,
-                provider: "Pak Ahmad",
-                category: "pertanian",
-                service: "Jasa Bajak Sawah",
-                description: "Memiliki traktor dan alat pertanian lengkap untuk mengolah lahan",
-                price: "Rp 300.000/hektar",
-                rating: 4.7,
-                reviews: 31,
-                location: "Dusun 3",
-                phone: "08345678901",
-                skills: ["Bajak Sawah", "Tanam Padi", "Panen"]
-            },
-            {
-                id: 4,
-                provider: "Bu Ani",
-                category: "jahit",
-                service: "Jahit & Bordir",
-                description: "Menerima pesanan jahit baju, seragam, dan bordir dengan kualitas terbaik",
-                price: "Rp 75.000/potong",
-                rating: 4.6,
-                reviews: 18,
-                location: "Dusun 1",
-                phone: "08456789012",
-                skills: ["Jahit Baju", "Bordir", "Sulam"]
-            },
-            {
-                id: 5,
-                provider: "Pak Joko",
-                category: "tukang",
-                service: "Tukang Listrik",
-                description: "Ahli instalasi listrik rumah dan perbaikan peralatan elektronik",
-                price: "Rp 100.000/kunjungan",
-                rating: 4.5,
-                reviews: 27,
-                location: "Dusun 2",
-                phone: "08567890123",
-                skills: ["Instalasi Listrik", "Service TV", "Perbaikan Elektronik"]
-            },
-            {
-                id: 6,
-                provider: "Bu Rina",
-                category: "lainnya",
-                service: "Catering Rumahan",
-                description: "Menyediakan makanan untuk acara keluarga dan hajatan dengan menu tradisional",
-                price: "Rp 25.000/porsi",
-                rating: 4.8,
-                reviews: 42,
-                location: "Dusun 3",
-                phone: "08678901234",
-                skills: ["Masakan Jawa", "Kue Tradisional", "Catering Acara"]
-            }
-        ];
+      <!-- Card 3 -->
+      <div class="bg-white rounded-xl shadow-md p-4">
+        <h3 class="font-bold text-lg">Bu Selly - Guru Les SD</h3>
+        <p class="text-sm mb-2">Matematika & Bahasa Indonesia kelas 1-6. Bisa datang ke rumah. Desa Kebon Agong</p>
+        <p class="font-semibold mb-2" style="color:#798e9d;">Rp 50.000 / sesi</p>
+        <div class="flex items-center mb-4">
+          <span class="text-yellow-400">★★★☆☆</span>
+          <span class="ml-2 text-sm text-gray-500">(4.5)</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <button class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</button>
+          <button class="text-sm text-[#4c3d3e]">Ulas</button>
+          <button class="favorite-btn text-gray-400 text-lg">♥</button>
+        </div>
+      </div>
+    </div>
 
-        let filteredServices = [...services];
-        let currentCategory = 'semua';
+    <!-- GRID 2 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <!-- Card 4 -->
+      <div class="bg-white rounded-xl shadow-md p-4">
+        <h3 class="font-bold text-lg">Siti - Penjahit</h3>
+        <p class="text-sm mb-2">Menjahit pakaian, permak celana, kebaya, seragam sekolah. Desa Kebon Agung</p>
+        <p class="font-semibold mb-2" style="color:#798e9d;">Rp 70.000 / sesi</p>
+        <div class="flex items-center mb-4">
+          <span class="text-yellow-400">★★★☆☆</span>
+          <span class="ml-2 text-sm text-gray-500">(4.3)</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <button class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</button>
+          <button class="text-sm text-[#4c3d3e]">Ulas</button>
+          <button class="favorite-btn text-gray-400 text-lg">♥</button>
+        </div>
+      </div>
 
-        function displayServices(servicesToShow = filteredServices) {
-            const grid = document.getElementById('servicesGrid');
-            
-            if (servicesToShow.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: white;">
-                        <h3>Tidak ada jasa yang ditemukan</h3>
-                        <p>Coba ubah kata kunci pencarian atau kategori</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            grid.innerHTML = servicesToShow.map(service => `
-                <div class="service-card" onclick="showServiceDetail(${service.id})">
-                    <div class="provider-info">
-                        <div class="avatar">${service.provider.charAt(0)}</div>
-                        <div class="provider-details">
-                            <h3>${service.provider}</h3>
-                            <div class="rating">
-                                <span>⭐ ${service.rating}</span>
-                                <span>(${service.reviews} ulasan)</span>
-                            </div>
-                            <small>📍 ${service.location}</small>
-                        </div>
-                    </div>
-                    
-                    <div class="service-info">
-                        <h4>${service.service}</h4>
-                        <p>${service.description}</p>
-                        <div class="price">${service.price}</div>
-                        <div style="margin-bottom: 1rem;">
-                            ${service.skills.map(skill => `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem; margin-right: 5px;">${skill}</span>`).join('')}
-                        </div>
-                    </div>
-                    
-                    <button class="btn contact-btn" onclick="event.stopPropagation(); contactProvider('${service.provider}', '${service.phone}')">
-                        📱 Hubungi Sekarang
-                    </button>
-                </div>
-            `).join('');
-        }
+      <!-- Card 5 -->
+      <div class="bg-white rounded-xl shadow-md p-4">
+        <h3 class="font-bold text-lg">Budi - Tukang Kebun</h3>
+        <p class="text-sm mb-2">Merawat taman, menanam bunga, pemangkasan pohon. Desa Sumberlele</p>
+        <p class="font-semibold mb-2" style="color:#798e9d;">Rp 100.000 / sesi</p>
+        <div class="flex items-center mb-4">
+          <span class="text-yellow-400">★★★★☆</span>
+          <span class="ml-2 text-sm text-gray-500">(4.7)</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <button class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</button>
+          <button class="text-sm text-[#4c3d3e]">Ulas</button>
+          <button class="favorite-btn text-gray-400 text-lg">♥</button>
+        </div>
+      </div>
 
-        function filterCategory(category) {
-            currentCategory = category;
-            
-            // Update active button
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Filter services
-            if (category === 'semua') {
-                filteredServices = [...services];
-            } else {
-                filteredServices = services.filter(service => service.category === category);
-            }
-            
-            displayServices();
-        }
+      <!-- Card 6 -->
+      <div class="bg-white rounded-xl shadow-md p-4">
+        <h3 class="font-bold text-lg">Pak Hasan - Tukang Bangunan</h3>
+        <p class="text-sm mb-2">Ahli membuat pondasi, tembok, dan renovasi rumah. Desa Asembakor</p>
+        <p class="font-semibold mb-2" style="color:#798e9d;">Rp 200.000 / sesi</p>
+        <div class="flex items-center mb-4">
+          <span class="text-yellow-400">★★★★☆</span>
+          <span class="ml-2 text-sm text-gray-500">(4.8)</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <button class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</button>
+          <button class="text-sm text-[#4c3d3e]">Ulas</button>
+          <button class="favorite-btn text-gray-400 text-lg">♥</button>
+        </div>
+      </div>
+    </div>
 
-        function searchServices() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const locationFilter = document.getElementById('locationFilter').value;
-            
-            let results = [...services];
-            
-            // Filter by category
-            if (currentCategory !== 'semua') {
-                results = results.filter(service => service.category === currentCategory);
-            }
-            
-            // Filter by search term
-            if (searchTerm) {
-                results = results.filter(service => 
-                    service.service.toLowerCase().includes(searchTerm) ||
-                    service.description.toLowerCase().includes(searchTerm) ||
-                    service.provider.toLowerCase().includes(searchTerm) ||
-                    service.skills.some(skill => skill.toLowerCase().includes(searchTerm))
-                );
-            }
-            
-            // Filter by location
-            if (locationFilter) {
-                results = results.filter(service => service.location.toLowerCase().includes(locationFilter));
-            }
-            
-            filteredServices = results;
-            displayServices();
-        }
+    <!-- PAGINATION -->
+    <div class="flex justify-center space-x-3">
+      <button class="px-3 py-1 border border-gray-400 rounded-full">1</button>
+      <button class="px-3 py-1 border border-gray-400 rounded-full">2</button>
+      <button class="px-3 py-1 border border-gray-400 rounded-full">3</button>
+      <span class="px-3 py-1">...</span>
+    </div>
+  </section>
 
-        function showServiceDetail(serviceId) {
-            const service = services.find(s => s.id === serviceId);
-            const modal = document.getElementById('serviceModal');
-            const modalContent = document.getElementById('modalContent');
-            
-            modalContent.innerHTML = `
-                <div class="provider-info" style="margin-bottom: 2rem;">
-                    <div class="avatar" style="width: 80px; height: 80px; font-size: 1.5rem;">${service.provider.charAt(0)}</div>
-                    <div class="provider-details">
-                        <h2>${service.provider}</h2>
-                        <h3 style="color: #667eea;">${service.service}</h3>
-                        <div class="rating" style="margin: 0.5rem 0;">
-                            <span>⭐ ${service.rating}</span>
-                            <span>(${service.reviews} ulasan)</span>
-                        </div>
-                        <p>📍 ${service.location}</p>
-                    </div>
-                </div>
-                
-                <div style="margin-bottom: 2rem;">
-                    <h4>Deskripsi Jasa:</h4>
-                    <p>${service.description}</p>
-                </div>
-                
-                <div style="margin-bottom: 2rem;">
-                    <h4>Keahlian:</h4>
-                    <div>
-                        ${service.skills.map(skill => `<span style="background: #667eea; color: white; padding: 6px 12px; border-radius: 15px; font-size: 0.9rem; margin-right: 8px; margin-bottom: 8px; display: inline-block;">${skill}</span>`).join('')}
-                    </div>
-                </div>
-                
-                <div style="background: #f8f9ff; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h4 style="color: #2d8f47;">Tarif: ${service.price}</h4>
-                </div>
-                
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn" style="flex: 1; background: #25D366;" onclick="contactWhatsApp('${service.phone}', '${service.service}')">
-                        💬 WhatsApp
-                    </button>
-                    <button class="btn" style="flex: 1; background: #007bff;" onclick="contactPhone('${service.phone}')">
-                        📞 Telepon
-                    </button>
-                </div>
-            `;
-            
-            modal.style.display = 'block';
-        }
+  <!-- FOOTER -->
+  <footer class="text-white py-8 mt-12" style="background-color:#383b4e;">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6">
+      <div>
+        <h4 class="font-semibold mb-2">Dapatkan Info Terbaru</h4>
+        <input type="email" placeholder="Email Anda" class="w-full px-3 py-2 rounded-lg text-gray-800 mb-2" />
+        <button class="w-full py-2 rounded-lg" style="background-color:#798e9d;">Submit</button>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Navigasi</h4>
+        <ul class="space-y-1">
+          <li><a href="#">Beranda</a></li>
+          <li><a href="#">Cari Jasa</a></li>
+          <li><a href="#">Riwayat</a></li>
+          <li><a href="#">Favorit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Kontak</h4>
+        <p>(+62) 812-3456-7890</p>
+        <p>marketdesa@desa.go.id</p>
+        <p>Jl. Raya Desa No.1, Jawa Timur</p>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Jam Operasional</h4>
+        <p>Senin – Jumat: 08.00–16.00</p>
+        <p>Sabtu – Minggu: 08.00–12.00</p>
+        <button class="mt-2 py-2 px-4 rounded-lg" style="background-color:#798e9d;">Hubungi via WhatsApp</button>
+      </div>
+    </div>
+    <p class="text-center text-sm mt-6">&copy; 2025 Marketplace Jasa Desa. All Rights Reserved.</p>
+  </footer>
 
-        function closeModal() {
-            document.getElementById('serviceModal').style.display = 'none';
-        }
+  <script>
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('text-gray-400');
+        btn.classList.toggle('text-red-500');
+      });
+    });
+  </script>
 
-        function contactProvider(name, phone) {
-            alert(`Menghubungi ${name} di nomor ${phone}`);
-        }
-
-        function contactWhatsApp(phone, service) {
-            const message = `Halo, saya tertarik dengan jasa ${service} yang Anda tawarkan. Bisa kita diskusi lebih lanjut?`;
-            const waUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
-            window.open(waUrl, '_blank');
-        }
-
-        function contactPhone(phone) {
-            window.location.href = `tel:${phone}`;
-        }
-
-        // Event listeners
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchServices();
-            }
-        });
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('serviceModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-
-        // Initialize page
-        displayServices();
-    </script>
 </body>
 </html>
