@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-2xl">
+    <!-- Title -->
+    <h1 class="text-4xl font-bold mb-6">Profile</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+      <!-- Left Side: Profile Info -->
+      <div class="md:col-span-2 space-y-4">
+        <!-- Username -->
+        <div>
+          <label class="block text-xs text-gray-500 uppercase">User Name</label>
+          <input type="text" id="username" value="Jane Walters" disabled
+            class="w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1"/>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-xs text-gray-500 uppercase">E-mail</label>
+          <input type="email" id="email" value="j.walters@domain.com" disabled
+            class="w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1"/>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-xs text-gray-500 uppercase">Password</label>
+          <div class="relative">
+            <input type="password" id="password" value="12345678" disabled
+              class="w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1 pr-10"/>
+            <button type="button" id="togglePw" 
+              class="absolute right-0 top-1 text-gray-500 hidden">👁</button>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div>
+          <label class="block text-xs text-gray-500 uppercase">Location</label>
+          <input type="text" id="location" value="Dubai, UAE" disabled
+            class="w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1"/>
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label class="block text-xs text-gray-500 uppercase">Phone</label>
+          <input type="text" id="phone" value="+1 0" disabled
+            class="w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1"/>
+        </div>
+      </div>
+
+      <!-- Right Side: Profile Picture -->
+      <div class="flex flex-col items-center">
+        <div class="relative">
+          <img id="profile-pic" src="https://i.pravatar.cc/200" alt="Profile" class="w-32 h-32 rounded-full object-cover">
+          <label for="file-upload" class="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow cursor-pointer">
+            📷
+          </label>
+          <input id="file-upload" type="file" class="hidden" accept="image/*"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-8 flex gap-4">
+      <button id="editBtn" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Edit</button>
+      <button id="saveBtn" class="px-4 py-2 bg-green-500 text-white rounded-lg hidden">Save</button>
+      <button id="cancelBtn" class="px-4 py-2 bg-gray-400 text-white rounded-lg hidden">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    const editBtn = document.getElementById("editBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const inputs = document.querySelectorAll("input[type=text], input[type=email], input[type=password]");
+    const togglePw = document.getElementById("togglePw");
+    const passwordInput = document.getElementById("password");
+
+    let originalValues = {};
+
+    editBtn.addEventListener("click", () => {
+      // simpan nilai asli
+      inputs.forEach(input => originalValues[input.id] = input.value);
+
+      inputs.forEach(input => input.disabled = false);
+      editBtn.classList.add("hidden");
+      saveBtn.classList.remove("hidden");
+      cancelBtn.classList.remove("hidden");
+
+      // show eye button
+      togglePw.classList.remove("hidden");
+    });
+
+    saveBtn.addEventListener("click", () => {
+      inputs.forEach(input => input.disabled = true);
+      editBtn.classList.remove("hidden");
+      saveBtn.classList.add("hidden");
+      cancelBtn.classList.add("hidden");
+
+      // hide eye button
+      togglePw.classList.add("hidden");
+
+      alert("Profile updated!");
+    });
+
+    cancelBtn.addEventListener("click", () => {
+      // restore nilai asli
+      inputs.forEach(input => input.value = originalValues[input.id]);
+      inputs.forEach(input => input.disabled = true);
+
+      editBtn.classList.remove("hidden");
+      saveBtn.classList.add("hidden");
+      cancelBtn.classList.add("hidden");
+
+      // hide eye button
+      togglePw.classList.add("hidden");
+    });
+
+    // Toggle show/hide password
+    togglePw.addEventListener("click", () => {
+      if(passwordInput.type === "password"){
+        passwordInput.type = "text";
+        togglePw.textContent = "︶";
+      } else {
+        passwordInput.type = "password";
+        togglePw.textContent = "👁";
+      }
+    });
+
+    // Ganti foto profil
+    const fileUpload = document.getElementById("file-upload");
+    const profilePic = document.getElementById("profile-pic");
+
+    fileUpload.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if(file){
+        const reader = new FileReader();
+        reader.onload = e => {
+          profilePic.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>
