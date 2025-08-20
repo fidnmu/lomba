@@ -112,82 +112,161 @@
       font-size: 12px;
       color: #d2dbeb;
       text-align: right;
-      cursor: pointer;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .forgot:hover {
+      color: #fff;
     }
 
+    .signup-text {
+      margin-top: 20px;
+      font-size: 13px;
+      text-align: center;
+      color: #d2dbeb;
+    }
+    .signup-text a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .signup-text a:hover {
+      text-decoration: underline;
+    }
+
+
     .calendar-card {
-    display: flex;
-    width: 400px;
-    height: 500px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    background: url("/lomba/langitt.jpg") no-repeat center center/cover;
+      position: relative;
+      display: flex;
+      width: 400px;
+      height: 500px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Video biar full background */
+    .calendar-card .calendar-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* Konten di atas video */
+    .calendar-left, .calendar-right {
+      position: relative;
+      z-index: 1;
     }
 
     .calendar-left {
-    width: 40%;
-    background: rgba(148, 188, 227, 0.5); /* transparan */
-    backdrop-filter: blur(8px);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: #222;
+      width: 40%;
+      background: rgba(148, 188, 227, 0.5); /* transparan */
+      backdrop-filter: blur(8px);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: #222;
     }
 
     .calendar-left h1 {
-    font-size: 3rem;
-    margin: 0;
+      font-size: 3rem;
+      margin: 0;
     }
 
     .calendar-left h2 {
-    font-size: 2rem;
-    margin: 0 0 20px;
-    color: #555;
+      font-size: 2rem;
+      margin: 0 0 20px;
+      color: #555;
     }
 
     .calendar-right {
-    flex: 1;
-    /* background: url("/lomba/langitt.jpg") no-repeat center center/cover; */
+      flex: 1;
     }
+
 
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Card Login -->
-    <div class="login-card">
-      <div class="login-header">
-        <h2>Log in</h2>
-        <div class="toggle-role" id="roleToggle">Pengguna</div>
-      </div>
-
-      <div class="form-group">
-        <input type="email" placeholder="E-mail address">
-      </div>
-
-      <div class="form-group">
-        <input type="password" placeholder="Password">
-      </div>
-
-      <span class="forgot">Lupa password?</span>
-
-      <button class="btn-login">Masuk</button>
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Log in</h2>
+      <div class="toggle-role" id="roleToggle">Pengguna</div>
     </div>
+
+    <div class="form-group">
+      <input type="email" placeholder="E-mail address">
+    </div>
+
+    <div class="form-group">
+      <input type="password" placeholder="Password">
+    </div>
+
+    <!-- Lupa password link -->
+    <a href="/lomba/lombafix/lupapw.html" class="forgot">Lupa password?</a>
+
+    <!-- Tombol masuk -->
+    <button class="btn-login">Masuk</button>
+
+    <!-- Belum punya akun -->
+    <p class="signup-text">
+      Belum punya akun? <a href="/lomba/lombafix/signup.html">Daftar</a>
+    </p>
+  </div>
+
 
     <div class="calendar-card">
-    <div class="calendar-left">
-        <h1>Jan</h1>
-        <h2>2025</h2>
-        <p>Rabu 20<br>Agustus 2025<br>Pinterest</p>
-    </div>
-    <div class="calendar-right"></div>
-    </div>
+        <video autoplay muted loop playsinline class="calendar-bg">
+            <source src="https://v1.pinimg.com/videos/mc/720p/4f/4f/16/4f4f160be45065c1572afe84496234b3.mp4" type="video/mp4" />
+        </video>
+
+        <div class="calendar-left">
+            <h1 id="month">---</h1>
+            <h2 id="year">----</h2>
+            <p id="full-date">---</p>
+        </div>
+        <div class="calendar-right"></div>
+        </div>
 
   </div>
 
   <script>
+    
+  const loginBtn = document.querySelector(".btn-login");
+  const emailInput = document.querySelector("input[type=email]");
+  const passwordInput = document.querySelector("input[type=password]");
+
+  loginBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    // Reset border
+    emailInput.style.border = "";
+    passwordInput.style.border = "";
+
+    // Validasi email & password
+    const validEmail = "mififi@gmail.com";
+    const validPassword = "miafidafita";
+
+    let emailCorrect = (email === validEmail);
+    let passwordCorrect = (password === validPassword);
+
+    if (emailCorrect && passwordCorrect) {
+      // Jika semua benar → redirect
+      window.location.href = "jasa.html";
+    } else {
+      // Kalau salah satu/dua-duanya → kasih merah di yang salah
+      if (!emailCorrect) emailInput.style.border = "2px solid red";
+      if (!passwordCorrect) passwordInput.style.border = "2px solid red";
+    }
+  });
+
     // Script toggle role
     const roleToggle = document.getElementById("roleToggle");
     let currentRole = "Pengguna";
@@ -196,6 +275,22 @@
       currentRole = currentRole === "Pengguna" ? "Penyedia" : "Pengguna";
       roleToggle.textContent = currentRole;
     });
+    
+        // Format nama bulan & hari
+    const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+    const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+    const today = new Date();
+    const dayName = days[today.getDay()];
+    const day = today.getDate();
+    const monthName = months[today.getMonth()];
+    const year = today.getFullYear();
+
+    // Inject ke elemen kalender
+    document.getElementById("month").textContent = monthName;
+    document.getElementById("year").textContent = year;
+    document.getElementById("full-date").innerHTML = `${dayName} ${day}<br>${monthName} ${year}`;
   </script>
+
 </body>
 </html>
