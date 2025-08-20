@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketplace Jasa Warga Desa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#d8dddd] text-gray-800 font-sans">
+
+  <!-- NAVBAR -->
+  <header class="text-white shadow-md" style="background-color:#383b4e;">
+    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+    <h1 class="text-2xl font-bold"><a href="/lomba/lombafix/jasa.html">⾕</a>UMKM Mart</h1>
+      <nav id="navbar" class="space-x-4">
+        <button data-target="beranda" class="nav-btn px-3 py-1 rounded-lg bg-[#798e9d] hover:bg-[#bab2a7]">Beranda</button>
+        <button data-target="aktif" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Aktif</button>
+        <button data-target="riwayat" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Riwayat</button>
+        <button data-target="batal" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Batal</button>
+        <button data-target="favorit" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Favorit</button>
+      </nav>
+      <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:#bab2a7;">
+        <span class="text-[#383b4e]">👤</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BERANDA -->
+  <main id="beranda" class="section">
+    <!-- HERO -->
+    <section class="relative bg-cover bg-center h-72" style="background-image: url('/lomba/sawah.jpg');">
+      <div class="absolute inset-0 bg-gradient-to-r from-[#383b4e]/70 to-[#798e9d]/50"></div>
+      <div class="relative z-10 max-w-3xl mx-auto text-center text-white py-16 px-6">
+        <h1 class="text-3xl font-bold mb-4">Temukan Jasa di Desa Anda</h1>
+        <p class="mb-6">Hubungkan warga yang punya keahlian dengan tetangga yang membutuhkan. 
+          Cepat, mudah, dan menguatkan ekonomi lokal.
+        </p>
+        <button id="heroSearchBtn" class="px-6 py-2 rounded-lg text-lg font-semibold" style="background-color:#798e9d;">
+          Cari Jasa
+        </button>
+      </div>
+    </section>
+
+    <!-- SEARCH FILTER -->
+    <section id="searchSection" class="max-w-6xl mx-auto px-4 py-6">
+      <div class="flex flex-col sm:flex-row gap-4 items-center">
+        <input id="searchInput" type="text" placeholder="Cari: Tukang, Petani, Penjahit..."
+          class="flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
+        <input id="lokasiInput" type="text" placeholder="+ lokasi (contoh: Kebun Agung)"
+          class="flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
+        <div class="flex flex-col items-start">
+          <div class="flex items-center space-x-2">
+            <label for="rangeHarga" class="text-sm text-[#383b4e] font-medium">Harga</label>
+            <input type="range" id="rangeHarga"
+              min="20000" max="500000" step="20000" value="500000"
+              class="w-40 accent-[#798e9d]">
+            <span id="labelHarga" class="text-sm font-semibold text-[#383b4e]">≤ Rp.500.000</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KATEGORI -->
+    <section class="max-w-6xl mx-auto px-4">
+      <div id="kategoriBtns" class="flex gap-2 mb-6 overflow-x-auto">
+        <button data-kategori="all" class="kategori-btn px-4 py-1 text-white rounded-full" style="background-color:#798e9d;">Semua</button>
+        <button data-kategori="Tukang" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Tukang</button>
+        <button data-kategori="Guru Les" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Guru Les</button>
+        <button data-kategori="Penjahit" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Jahit</button>
+        <button data-kategori="Jasa Tani" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Jasa Tani</button>
+        <button data-kategori="Lainnya" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Lainnya</button>
+      </div>
+    </section>
+
+    <!-- LIST JASA -->
+    <section class="max-w-6xl mx-auto px-4 pb-12" id="jasa-list">
+      <div id="jasaGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      <!-- PAGINATION -->
+      <div class="flex justify-center space-x-3 mt-6">
+        <button class="px-3 py-1 border border-gray-400 rounded-full">1</button>
+        <button class="px-3 py-1 border border-gray-400 rounded-full">2</button>
+        <button class="px-3 py-1 border border-gray-400 rounded-full">3</button>
+        <span class="px-3 py-1">...</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- AKTIF -->
+  <main id="aktif" class="section hidden">
+    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+      <p class="text-lg text-gray-600">Belum ada jasa aktif.</p>
+    </div>
+  </main>
+
+  <!-- RIWAYAT -->
+  <main id="riwayat" class="section hidden">
+    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+      <p class="text-lg text-gray-600">Riwayat transaksi akan muncul di sini.</p>
+    </div>
+  </main>
+
+  <!-- BATAL -->
+  <main id="batal" class="section hidden">
+    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+      <p class="text-lg text-gray-600">Belum ada transaksi batal.</p>
+    </div>
+  </main>
+
+  <!-- FAVORIT -->
+  <main id="favorit" class="section hidden">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold mb-6 text-center">Favorit Saya</h2>
+      <div id="favorit-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="text-white py-8 mt-12" style="background-color:#383b4e;">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6">
+      <div>
+        <h4 class="font-semibold mb-2">Dapatkan Info Terbaru</h4>
+        <input type="email" placeholder="Email Anda" class="w-full px-3 py-2 rounded-lg text-gray-800 mb-2" />
+        <button class="w-full py-2 rounded-lg" style="background-color:#798e9d;">Submit</button>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Navigasi</h4>
+        <ul class="space-y-1">
+          <li><a href="#">Beranda</a></li>
+          <li><a href="#">Cari Jasa</a></li>
+          <li><a href="#">Riwayat</a></li>
+          <li><a href="#">Favorit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Kontak</h4>
+        <p>(+62) 895-1632-6049</p>
+        <p>JasaMart@desa.go.id</p>
+        <p>Jl. Raya Desa No.1, Jawa Timur</p>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Jam Operasional</h4>
+        <p>Senin – Kamis: 08.00–16.00</p>
+        <p>Jumat – Minggu: 08.00–12.00</p>
+        <button class="mt-2 py-2 px-4 rounded-lg" style="background-color:#798e9d;">Hubungi via WhatsApp</button>
+      </div>
+    </div>
+    <p class="text-center text-sm mt-6">&copy; 2025 Jasa Mart. All Rights Reserved.</p>
+  </footer>
+
+  <!-- MODAL ULAS -->
+  <div id="ulasModal" class="fixed inset-0 hidden items-center justify-center z-50">
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative w-full max-w-md mx-4 rounded-2xl shadow-xl p-6 bg-white"
+         style="border:1px solid #bab2a7;">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-[#383b4e]">Beri Ulasan</h3>
+        <button id="closeUlas" class="px-2 py-1 rounded-lg text-sm" style="background-color:#bab2a7;color:#383b4e;">Tutup</button>
+      </div>
+      <div class="space-y-4">
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-[#383b4e]">Rating:</span>
+          <div id="ratingStars" class="flex space-x-1"></div>
+          <span id="ratingValue" class="text-sm font-semibold text-[#383b4e]">(0)</span>
+        </div>
+        <textarea id="ratingNote" rows="3" placeholder="Tulis komentar (opsional)"
+          class="w-full border border-[#bab2a7] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#798e9d]"></textarea>
+        <button id="submitUlas" class="w-full py-2 rounded-lg text-white font-semibold"
+          style="background-color:#383b4e;">Kirim</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ================== DATA JASA ==================
+    // Tambah field 'wa' (nomor WhatsApp), ratingNumber & ratingCount agar ulasan bisa mempengaruhi rata-rata
+    const jasaData = [
+      { id:1, nama:"Budi - Tukang Kebun", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:100000, deskripsi:"Merawat taman, menanam bunga, pemangkasan pohon.", wa:"628123001001", ratingNumber:4.7, ratingCount:23 },
+      { id:2, nama:"Pak Kio - Tukang Kayu", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:150000, deskripsi:"Spesialis furniture, rak, dan perbaikan pintu/jendela.", wa:"628123001002", ratingNumber:4.9, ratingCount:31 },
+      { id:3, nama:"Bu Selly - Guru Les SD", kategori:"Guru Les", lokasi:"Desa Kebon Agong", harga:50000, deskripsi:"Matematika & Bahasa Indonesia kelas 1-6.", wa:"628123001003", ratingNumber:4.5, ratingCount:18 },
+      { id:4, nama:"Siti - Penjahit", kategori:"Penjahit", lokasi:"Desa Kebon Agung", harga:70000, deskripsi:"Menjahit pakaian, permak celana, kebaya, seragam sekolah.", wa:"628123001004", ratingNumber:4.3, ratingCount:14 },
+      { id:5, nama:"Pak Hasan - Tukang Bangunan", kategori:"Tukang", lokasi:"Desa Asembakor", harga:200000, deskripsi:"Ahli membuat pondasi, tembok, renovasi rumah.", wa:"628123001005", ratingNumber:4.8, ratingCount:40 },
+      { id:6, nama:"Pak Tani - Jasa Tani", kategori:"Jasa Tani", lokasi:"Desa Sumberlele", harga:80000, deskripsi:"Mengolah sawah, menanam padi, panen.", wa:"628123001006", ratingNumber:4.6, ratingCount:21 }
+    ];
+
+    // Muat pembaruan rating tersimpan (localStorage)
+    const savedRatings = JSON.parse(localStorage.getItem("jasaMart_ratings") || "{}");
+    for (const id in savedRatings) {
+      const idx = jasaData.findIndex(j => j.id === Number(id));
+      if (idx > -1) Object.assign(jasaData[idx], savedRatings[id]);
+    }
+
+    let favoritData = []; // simpan id jasa yang di-favoritkan
+
+    const jasaGrid = document.getElementById("jasaGrid");
+    const searchInput = document.getElementById("searchInput");
+    const lokasiInput = document.getElementById("lokasiInput");
+    const rangeHarga = document.getElementById("rangeHarga");
+    const labelHarga = document.getElementById("labelHarga");
+    const favoritList = document.getElementById("favorit-list");
+
+    // ===== Helper: render bintang & teks rating
+    function starText(avg){
+      const full = Math.floor(avg);
+      const half = (avg - full >= 0.5) ? 1 : 0;
+      const empty = 5 - full - half;
+      return "★".repeat(full) + (half ? "☆" : "") + "☆".repeat(empty);
+    }
+    function ratingLabel(j){
+      return `${starText(j.ratingNumber)} (${j.ratingNumber.toFixed(1)})`;
+    }
+
+    // ================== RENDER CARD DI BERANDA ==================
+    function renderJasa(data){
+      jasaGrid.innerHTML = "";
+      if(data.length === 0){
+        jasaGrid.innerHTML = `<p class="col-span-3 text-center text-gray-600">Tidak ada jasa ditemukan</p>`;
+        return;
+      }
+      data.forEach(j => {
+        const isFav = favoritData.includes(j.id);
+        const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo "+j.nama+", saya tertarik menggunakan jasa Anda.")}`;
+        const [stars, paren] = [ratingLabel(j).split(" ")[0], `(${j.ratingNumber.toFixed(1)})`];
+
+        jasaGrid.innerHTML += `
+          <div class="card bg-white rounded-xl shadow-md p-4">
+            <h3 class="font-bold text-lg">${j.nama}</h3>
+            <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
+            <p class="font-semibold mb-2 text-[#798e9d]">Rp ${j.harga.toLocaleString("id-ID")} / sesi</p>
+            <div class="flex items-center mb-4">
+              <span class="text-yellow-400">${stars}</span>
+              <span class="ml-2 text-sm text-gray-500">${paren}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <a href="${waLink}" target="_blank" rel="noopener" class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</a>
+              <button class="ulasan-btn text-sm text-[#4c3d3e]" data-id="${j.id}">Ulas</button>
+              <button class="favorite-btn ${isFav ? "text-red-500" : "text-gray-400"} text-lg" data-id="${j.id}">♥</button>
+            </div>
+          </div>
+        `;
+      });
+
+      // Event tombol favorit
+      document.querySelectorAll(".favorite-btn").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = parseInt(btn.dataset.id);
+          if(favoritData.includes(id)){
+            favoritData = favoritData.filter(f=>f!==id); // hapus dari favorit
+          }else{
+            favoritData.push(id); // tambah ke favorit
+          }
+          applyFilter(); // re-render beranda
+          renderFavorit(); // update halaman favorit
+        });
+      });
+
+      // Event tombol ulas
+      document.querySelectorAll(".ulasan-btn").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          openUlasModal(parseInt(btn.dataset.id));
+        });
+      });
+    }
+
+    // ================== RENDER FAVORIT ==================
+    function renderFavorit(){
+      favoritList.innerHTML = "";
+      if(favoritData.length === 0){
+        favoritList.innerHTML = `<p class="col-span-3 text-center text-gray-600">Belum ada favorit</p>`;
+        return;
+      }
+      jasaData.filter(j=>favoritData.includes(j.id)).forEach(j=>{
+        const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo "+j.nama+", saya tertarik menggunakan jasa Anda.")}`;
+        favoritList.innerHTML += `
+          <div class="card bg-white rounded-xl shadow-md p-4">
+            <h3 class="font-bold text-lg">${j.nama}</h3>
+            <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
+            <p class="font-semibold mb-2 text-[#798e9d]">Rp ${j.harga.toLocaleString("id-ID")} / sesi</p>
+            <div class="flex items-center mb-4">
+              <span class="text-yellow-400">${starText(j.ratingNumber)}</span>
+              <span class="ml-2 text-sm text-gray-500">(${j.ratingNumber.toFixed(1)})</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <a href="${waLink}" target="_blank" rel="noopener" class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</a>
+              <button class="ulasan-btn text-sm text-[#4c3d3e]" data-id="${j.id}">Ulas</button>
+              <button class="favorite-btn text-red-500 text-lg" data-id="${j.id}">♥</button>
+            </div>
+          </div>
+        `;
+      });
+
+      // aktifkan event favorite di halaman favorit juga
+      document.querySelectorAll("#favorit .favorite-btn").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = parseInt(btn.dataset.id);
+          favoritData = favoritData.filter(f=>f!==id); // hapus dari favorit
+          applyFilter(); // update list jasa di beranda
+          renderFavorit(); // update halaman favorit
+        });
+      });
+
+      // ulasan dari halaman favorit
+      document.querySelectorAll("#favorit .ulasan-btn").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          openUlasModal(parseInt(btn.dataset.id));
+        });
+      });
+    }
+
+    // ================== FILTER FUNCTION ==================
+    function applyFilter(){
+      let keyword = searchInput.value.toLowerCase();
+      let lokasi = lokasiInput.value.toLowerCase();
+      let maxHarga = parseInt(rangeHarga.value);
+      let kategoriActive = document.querySelector(".kategori-btn.active")?.dataset.kategori || "all";
+
+      let hasil = jasaData.filter(j => {
+        let cocokNama = j.nama.toLowerCase().includes(keyword) || j.deskripsi.toLowerCase().includes(keyword);
+        let cocokLokasi = lokasi === "" || j.lokasi.toLowerCase().includes(lokasi);
+        let cocokHarga = j.harga <= maxHarga;
+        let cocokKategori = kategoriActive === "all" || j.kategori === kategoriActive;
+        return cocokNama && cocokLokasi && cocokHarga && cocokKategori;
+      });
+
+      labelHarga.innerText = `≤ Rp.${maxHarga.toLocaleString("id-ID")}`;
+      renderJasa(hasil);
+    }
+
+    // ================== EVENT LISTENER ==================
+    searchInput.addEventListener("input", applyFilter);
+    lokasiInput.addEventListener("input", applyFilter);
+    rangeHarga.addEventListener("input", applyFilter);
+
+    document.querySelectorAll(".kategori-btn").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        document.querySelectorAll(".kategori-btn").forEach(b=> b.classList.remove("bg-[#798e9d]","text-white","active"));
+        btn.classList.add("bg-[#798e9d]","text-white","active");
+        applyFilter();
+      });
+    });
+
+    // Hero button scroll ke search
+    document.getElementById("heroSearchBtn").addEventListener("click", ()=>{
+      document.getElementById("searchSection").scrollIntoView({behavior:"smooth"});
+    });
+
+    // Navigasi antar section
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+        document.getElementById(btn.dataset.target).classList.remove('hidden');
+
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('bg-[#798e9d]'));
+        btn.classList.add('bg-[#798e9d]');
+
+        if(btn.dataset.target === "favorit"){ // auto refresh favorit
+          renderFavorit();
+        }
+      });
+    });
+
+    // ================== MODAL ULAS ==================
+    const ulasModal = document.getElementById("ulasModal");
+    const closeUlas = document.getElementById("closeUlas");
+    const ratingStars = document.getElementById("ratingStars");
+    const ratingValue = document.getElementById("ratingValue");
+    const ratingNote  = document.getElementById("ratingNote");
+    const submitUlas  = document.getElementById("submitUlas");
+    let currentUlasId = null;
+    let chosenRating = 0;
+
+    function drawStars(current=0){
+      ratingStars.innerHTML = "";
+      for(let i=1;i<=5;i++){
+        const b = document.createElement("button");
+        b.type="button";
+        b.className="text-2xl";
+        b.textContent = i<=current ? "★" : "☆";
+        b.style.color = i<=current ? "#fbbf24" : "#9ca3af"; // amber-400 / gray-400
+        b.addEventListener("click", ()=>{
+          chosenRating = i;
+          drawStars(i);
+        });
+        ratingStars.appendChild(b);
+      }
+      ratingValue.textContent = `(${current})`;
+    }
+
+    function openUlasModal(id){
+      currentUlasId = id;
+      chosenRating = 0;
+      ratingNote.value = "";
+      drawStars(0);
+      ulasModal.classList.remove("hidden");
+      ulasModal.classList.add("flex");
+    }
+    function closeModal(){
+      ulasModal.classList.add("hidden");
+      ulasModal.classList.remove("flex");
+    }
+    closeUlas.addEventListener("click", closeModal);
+    ulasModal.addEventListener("click", (e)=>{ if(e.target === ulasModal) closeModal(); });
+
+    submitUlas.addEventListener("click", ()=>{
+      if(!currentUlasId) return;
+      if(chosenRating === 0){
+        alert("Pilih rating 1–5 dulu ya.");
+        return;
+      }
+      const j = jasaData.find(x=>x.id===currentUlasId);
+      if(!j) return;
+
+      // update rata-rata
+      const total = j.ratingNumber * j.ratingCount + chosenRating;
+      j.ratingCount += 1;
+      j.ratingNumber = total / j.ratingCount;
+
+      // simpan ke localStorage biar persistent
+      const map = JSON.parse(localStorage.getItem("jasaMart_ratings") || "{}");
+      map[j.id] = { ratingNumber: j.ratingNumber, ratingCount: j.ratingCount };
+      localStorage.setItem("jasaMart_ratings", JSON.stringify(map));
+
+      // (opsional) komentar bisa dipakai nanti
+      // const note = ratingNote.value.trim();
+
+      applyFilter();      // re-render kartu di beranda dgn rating baru
+      renderFavorit();    // re-render favorit jika terbuka
+      closeModal();
+    });
+
+    // Inisialisasi awal
+    applyFilter();   // ini sekaligus render awal
+    renderFavorit();
+  </script>
+
+</body>
+</html>
