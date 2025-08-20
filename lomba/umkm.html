@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marketplace Jasa Warga Desa</title>
+  <title>Marketplace umkm Warga Desa</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#d8dddd] text-gray-800 font-sans">
@@ -11,7 +11,7 @@
   <!-- NAVBAR -->
   <header class="text-white shadow-md" style="background-color:#383b4e;">
     <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-    <h1 class="text-2xl font-bold"><a href="/lomba/lombafix/jasa.html">⾕</a>UMKM Mart</h1>
+    <h1 class="text-2xl font-bold"><a href="/lomba/lombafix/jasa.html">⾕</a>umkm Mart</h1>
       <nav id="navbar" class="space-x-4">
         <button data-target="beranda" class="nav-btn px-3 py-1 rounded-lg bg-[#798e9d] hover:bg-[#bab2a7]">Beranda</button>
         <button data-target="aktif" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Aktif</button>
@@ -20,7 +20,18 @@
         <button data-target="favorit" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Favorit</button>
       </nav>
       <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:#bab2a7;">
-        <span class="text-[#383b4e]">👤</span>
+        <!-- PROFIL DROPDOWN -->
+      <div class="relative">
+        <button id="profileBtn" class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:#bab2a7;">
+          <span class="text-[#383b4e]">👤</span>
+        </button>
+
+        <!-- Dropdown -->
+        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-max min-w-[120px] bg-white rounded-lg shadow-lg overflow-hidden z-50">
+          <a href="/lomba/lombafix/profil.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
+          <a href="/lomba/lombafix/login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+        </div>
+      </div>
       </div>
     </div>
   </header>
@@ -31,12 +42,12 @@
     <section class="relative bg-cover bg-center h-72" style="background-image: url('/lomba/sawah.jpg');">
       <div class="absolute inset-0 bg-gradient-to-r from-[#383b4e]/70 to-[#798e9d]/50"></div>
       <div class="relative z-10 max-w-3xl mx-auto text-center text-white py-16 px-6">
-        <h1 class="text-3xl font-bold mb-4">Temukan Jasa di Desa Anda</h1>
+        <h1 class="text-3xl font-bold mb-4">Temukan umkm di Desa Anda</h1>
         <p class="mb-6">Hubungkan warga yang punya keahlian dengan tetangga yang membutuhkan. 
           Cepat, mudah, dan menguatkan ekonomi lokal.
         </p>
         <button id="heroSearchBtn" class="px-6 py-2 rounded-lg text-lg font-semibold" style="background-color:#798e9d;">
-          Cari Jasa
+          Cari umkm
         </button>
       </div>
     </section>
@@ -67,14 +78,14 @@
         <button data-kategori="Tukang" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Tukang</button>
         <button data-kategori="Guru Les" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Guru Les</button>
         <button data-kategori="Penjahit" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Jahit</button>
-        <button data-kategori="Jasa Tani" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Jasa Tani</button>
+        <button data-kategori="umkm Tani" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">umkm Tani</button>
         <button data-kategori="Lainnya" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Lainnya</button>
       </div>
     </section>
 
-    <!-- LIST JASA -->
-    <section class="max-w-6xl mx-auto px-4 pb-12" id="jasa-list">
-      <div id="jasaGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    <!-- LIST umkm -->
+    <section class="max-w-6xl mx-auto px-4 pb-12" id="umkm-list">
+      <div id="umkmGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
       <!-- PAGINATION -->
       <div class="flex justify-center space-x-3 mt-6">
         <button class="px-3 py-1 border border-gray-400 rounded-full">1</button>
@@ -88,7 +99,7 @@
   <!-- AKTIF -->
   <main id="aktif" class="section hidden">
     <div class="max-w-6xl mx-auto px-4 py-12 text-center">
-      <p class="text-lg text-gray-600">Belum ada jasa aktif.</p>
+      <p class="text-lg text-gray-600">Belum ada umkm aktif.</p>
     </div>
   </main>
 
@@ -126,7 +137,7 @@
         <h4 class="font-semibold mb-2">Navigasi</h4>
         <ul class="space-y-1">
           <li><a href="#">Beranda</a></li>
-          <li><a href="#">Cari Jasa</a></li>
+          <li><a href="#">Cari umkm</a></li>
           <li><a href="#">Riwayat</a></li>
           <li><a href="#">Favorit</a></li>
         </ul>
@@ -134,7 +145,7 @@
       <div>
         <h4 class="font-semibold mb-2">Kontak</h4>
         <p>(+62) 895-1632-6049</p>
-        <p>JasaMart@desa.go.id</p>
+        <p>umkmMart@desa.go.id</p>
         <p>Jl. Raya Desa No.1, Jawa Timur</p>
       </div>
       <div>
@@ -144,7 +155,7 @@
         <button class="mt-2 py-2 px-4 rounded-lg" style="background-color:#798e9d;">Hubungi via WhatsApp</button>
       </div>
     </div>
-    <p class="text-center text-sm mt-6">&copy; 2025 Jasa Mart. All Rights Reserved.</p>
+    <p class="text-center text-sm mt-6">&copy; 2025 umkm Mart. All Rights Reserved.</p>
   </footer>
 
   <!-- MODAL ULAS -->
@@ -171,27 +182,52 @@
   </div>
 
   <script>
-    // ================== DATA JASA ==================
+    // === DROPDOWN PROFIL ===
+    const profileBtn = document.getElementById("profileBtn");
+    const profileMenu = document.getElementById("profileMenu");
+
+    profileBtn.addEventListener("click", () => {
+      profileMenu.classList.toggle("hidden");
+    });
+
+    // klik di luar dropdown -> tutup
+    document.addEventListener("click", (e) => {
+      if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+        profileMenu.classList.add("hidden");
+      }
+    });
+
+    // tombol logout
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      alert("Anda berhasil logout!");
+      window.location.href = "login.html"; // arahkan ke login.html (bisa kamu ubah)
+    });
+
+    // === SCRIPT LAIN PUNYA KAMU TETAP ===
+    // (search, filter, favorit, ulasan, dll...)
+  </script>
+  <script>
+    // ================== DATA umkm ==================
     // Tambah field 'wa' (nomor WhatsApp), ratingNumber & ratingCount agar ulasan bisa mempengaruhi rata-rata
-    const jasaData = [
+    const umkmData = [
       { id:1, nama:"Budi - Tukang Kebun", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:100000, deskripsi:"Merawat taman, menanam bunga, pemangkasan pohon.", wa:"628123001001", ratingNumber:4.7, ratingCount:23 },
       { id:2, nama:"Pak Kio - Tukang Kayu", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:150000, deskripsi:"Spesialis furniture, rak, dan perbaikan pintu/jendela.", wa:"628123001002", ratingNumber:4.9, ratingCount:31 },
       { id:3, nama:"Bu Selly - Guru Les SD", kategori:"Guru Les", lokasi:"Desa Kebon Agong", harga:50000, deskripsi:"Matematika & Bahasa Indonesia kelas 1-6.", wa:"628123001003", ratingNumber:4.5, ratingCount:18 },
       { id:4, nama:"Siti - Penjahit", kategori:"Penjahit", lokasi:"Desa Kebon Agung", harga:70000, deskripsi:"Menjahit pakaian, permak celana, kebaya, seragam sekolah.", wa:"628123001004", ratingNumber:4.3, ratingCount:14 },
       { id:5, nama:"Pak Hasan - Tukang Bangunan", kategori:"Tukang", lokasi:"Desa Asembakor", harga:200000, deskripsi:"Ahli membuat pondasi, tembok, renovasi rumah.", wa:"628123001005", ratingNumber:4.8, ratingCount:40 },
-      { id:6, nama:"Pak Tani - Jasa Tani", kategori:"Jasa Tani", lokasi:"Desa Sumberlele", harga:80000, deskripsi:"Mengolah sawah, menanam padi, panen.", wa:"628123001006", ratingNumber:4.6, ratingCount:21 }
+      { id:6, nama:"Pak Tani - umkm Tani", kategori:"umkm Tani", lokasi:"Desa Sumberlele", harga:80000, deskripsi:"Mengolah sawah, menanam padi, panen.", wa:"628123001006", ratingNumber:4.6, ratingCount:21 }
     ];
 
     // Muat pembaruan rating tersimpan (localStorage)
-    const savedRatings = JSON.parse(localStorage.getItem("jasaMart_ratings") || "{}");
+    const savedRatings = JSON.parse(localStorage.getItem("umkmMart_ratings") || "{}");
     for (const id in savedRatings) {
-      const idx = jasaData.findIndex(j => j.id === Number(id));
-      if (idx > -1) Object.assign(jasaData[idx], savedRatings[id]);
+      const idx = umkmData.findIndex(j => j.id === Number(id));
+      if (idx > -1) Object.assign(umkmData[idx], savedRatings[id]);
     }
 
-    let favoritData = []; // simpan id jasa yang di-favoritkan
+    let favoritData = []; // simpan id umkm yang di-favoritkan
 
-    const jasaGrid = document.getElementById("jasaGrid");
+    const umkmGrid = document.getElementById("umkmGrid");
     const searchInput = document.getElementById("searchInput");
     const lokasiInput = document.getElementById("lokasiInput");
     const rangeHarga = document.getElementById("rangeHarga");
@@ -210,18 +246,18 @@
     }
 
     // ================== RENDER CARD DI BERANDA ==================
-    function renderJasa(data){
-      jasaGrid.innerHTML = "";
+    function renderumkm(data){
+      umkmGrid.innerHTML = "";
       if(data.length === 0){
-        jasaGrid.innerHTML = `<p class="col-span-3 text-center text-gray-600">Tidak ada jasa ditemukan</p>`;
+        umkmGrid.innerHTML = `<p class="col-span-3 text-center text-gray-600">Tidak ada umkm ditemukan</p>`;
         return;
       }
       data.forEach(j => {
         const isFav = favoritData.includes(j.id);
-        const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo "+j.nama+", saya tertarik menggunakan jasa Anda.")}`;
+        const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo "+j.nama+", saya tertarik menggunakan umkm Anda.")}`;
         const [stars, paren] = [ratingLabel(j).split(" ")[0], `(${j.ratingNumber.toFixed(1)})`];
 
-        jasaGrid.innerHTML += `
+        umkmGrid.innerHTML += `
           <div class="card bg-white rounded-xl shadow-md p-4">
             <h3 class="font-bold text-lg">${j.nama}</h3>
             <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
@@ -268,8 +304,8 @@
         favoritList.innerHTML = `<p class="col-span-3 text-center text-gray-600">Belum ada favorit</p>`;
         return;
       }
-      jasaData.filter(j=>favoritData.includes(j.id)).forEach(j=>{
-        const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo "+j.nama+", saya tertarik menggunakan jasa Anda.")}`;
+      umkmData.filter(j=>favoritData.includes(j.id)).forEach(j=>{
+        const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo "+j.nama+", saya tertarik menggunakan umkm Anda.")}`;
         favoritList.innerHTML += `
           <div class="card bg-white rounded-xl shadow-md p-4">
             <h3 class="font-bold text-lg">${j.nama}</h3>
@@ -293,7 +329,7 @@
         btn.addEventListener("click", ()=>{
           const id = parseInt(btn.dataset.id);
           favoritData = favoritData.filter(f=>f!==id); // hapus dari favorit
-          applyFilter(); // update list jasa di beranda
+          applyFilter(); // update list umkm di beranda
           renderFavorit(); // update halaman favorit
         });
       });
@@ -313,7 +349,7 @@
       let maxHarga = parseInt(rangeHarga.value);
       let kategoriActive = document.querySelector(".kategori-btn.active")?.dataset.kategori || "all";
 
-      let hasil = jasaData.filter(j => {
+      let hasil = umkmData.filter(j => {
         let cocokNama = j.nama.toLowerCase().includes(keyword) || j.deskripsi.toLowerCase().includes(keyword);
         let cocokLokasi = lokasi === "" || j.lokasi.toLowerCase().includes(lokasi);
         let cocokHarga = j.harga <= maxHarga;
@@ -322,7 +358,7 @@
       });
 
       labelHarga.innerText = `≤ Rp.${maxHarga.toLocaleString("id-ID")}`;
-      renderJasa(hasil);
+      renderumkm(hasil);
     }
 
     // ================== EVENT LISTENER ==================
@@ -406,7 +442,7 @@
         alert("Pilih rating 1–5 dulu ya.");
         return;
       }
-      const j = jasaData.find(x=>x.id===currentUlasId);
+      const j = umkmData.find(x=>x.id===currentUlasId);
       if(!j) return;
 
       // update rata-rata
@@ -415,9 +451,9 @@
       j.ratingNumber = total / j.ratingCount;
 
       // simpan ke localStorage biar persistent
-      const map = JSON.parse(localStorage.getItem("jasaMart_ratings") || "{}");
+      const map = JSON.parse(localStorage.getItem("umkmMart_ratings") || "{}");
       map[j.id] = { ratingNumber: j.ratingNumber, ratingCount: j.ratingCount };
-      localStorage.setItem("jasaMart_ratings", JSON.stringify(map));
+      localStorage.setItem("umkmMart_ratings", JSON.stringify(map));
 
       // (opsional) komentar bisa dipakai nanti
       // const note = ratingNote.value.trim();
