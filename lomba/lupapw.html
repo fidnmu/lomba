@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lupa Password</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #01162b, #00385a, #6a90b4, #d2dbeb);
+      background-size: 300% 300%;
+      animation: gradientBG 10s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .container {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    /* Forgot Password Card */
+    .forgot-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      border-radius: 20px;
+      width: 320px; /* ukurannya jangan diganti */
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .forgot-card h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .forgot-card p {
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      color: #d2dbeb;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      background: rgba(255,255,255,0.85);
+    }
+
+    .form-group input:focus {
+      box-shadow: 0 0 0 2px #6a90b4;
+    }
+
+    .btn-reset {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #00385a;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-reset:hover {
+      background: #01162b;
+    }
+
+    .back-login {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #d2dbeb;
+      display: block;
+      text-decoration: none;
+    }
+
+    .back-login:hover {
+      text-decoration: underline;
+      color: #fff;
+    }
+
+    /* Calendar Card */
+    .calendar-card {
+      position: relative;
+      display: flex;
+      width: 400px;
+      height: 500px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .calendar-card .calendar-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .calendar-left, .calendar-right {
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-left {
+      width: 40%;
+      background: rgba(148, 188, 227, 0.5);
+      backdrop-filter: blur(8px);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: #222;
+    }
+
+    .calendar-left h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    .calendar-left h2 {
+      font-size: 2rem;
+      margin: 0 0 20px;
+      color: #555;
+    }
+
+    .calendar-right {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Forgot Password Card -->
+    <div class="forgot-card">
+      <h2>Lupa Password</h2>
+      <p>Masukkan alamat email Anda untuk mereset password.</p>
+
+      <div class="form-group">
+        <input type="email" placeholder="E-mail address">
+      </div>
+
+      <button class="btn-reset">Kirim Link Reset</button>
+
+      <a href="/lomba/lombafix/login.html" class="back-login">← Kembali ke Login</a>
+    </div>
+
+    <!-- Calendar Card -->
+    <div class="calendar-card">
+        <video autoplay muted loop playsinline class="calendar-bg">
+            <source src="https://v1.pinimg.com/videos/mc/720p/4f/4f/16/4f4f160be45065c1572afe84496234b3.mp4" type="video/mp4" />
+        </video>
+
+        <div class="calendar-left">
+            <h1 id="month">---</h1>
+            <h2 id="year">----</h2>
+            <p id="full-date">---</p>
+        </div>
+        <div class="calendar-right"></div>
+        </div>
+
+  </div>
+    <script>
+        // Format nama bulan & hari
+        const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+        const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+        const today = new Date();
+        const dayName = days[today.getDay()];
+        const day = today.getDate();
+        const monthName = months[today.getMonth()];
+        const year = today.getFullYear();
+
+        // Inject ke elemen kalender
+        document.getElementById("month").textContent = monthName;
+        document.getElementById("year").textContent = year;
+        document.getElementById("full-date").innerHTML = `${dayName} ${day}<br>${monthName} ${year}`;
+    </script>
+
+</body>
+</html>
