@@ -5,13 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Marketplace Jasa Warga Desa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .logo-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .logo {
+      font-size: 32px; /* ukuran simbol ⾕ */
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Titik cahaya pertama */
+    .logo-wrapper::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background: #798e9d;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) rotate(0deg) translateX(22px);
+      animation: orbit-cw 1.5s linear infinite;
+      box-shadow: 0 0 6px #798e9d, 0 0 12px #798e9d;
+    }
+
+    /* Titik cahaya kedua */
+    .logo-wrapper::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background: #bab2a7;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) rotate(180deg) translateX(22px);
+      animation: orbit-ccw 1.5s linear infinite;
+      box-shadow: 0 0 6px #bab2a7, 0 0 12px #bab2a7;
+    }
+
+    /* Orbit searah jarum jam */
+    @keyframes orbit-cw {
+      from { transform: translate(-50%, -50%) rotate(0deg) translateX(22px); }
+      to   { transform: translate(-50%, -50%) rotate(360deg) translateX(22px); }
+    }
+
+    /* Orbit berlawanan arah jarum jam */
+    @keyframes orbit-ccw {
+      from { transform: translate(-50%, -50%) rotate(180deg) translateX(22px); }
+      to   { transform: translate(-50%, -50%) rotate(-180deg) translateX(22px); }
+    }
+
+  </style>
 </head>
 <body class="bg-[#d8dddd] text-gray-800 font-sans">
 
   <!-- NAVBAR -->
   <header class="text-white shadow-md" style="background-color:#383b4e;">
     <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-    <h1 class="text-2xl font-bold"><a href="umkm.html">⾕</a>Jasa Mart</h1>
+    <h1 class="text-2xl font-bold flex items-center">
+      <a href="umkm.html" class="logo-wrapper relative inline-block mr-2">
+        <span class="logo">⾕</span>
+      </a>
+      Jasa Mart
+    </h1>
+
       <nav id="navbar" class="space-x-4">
         <button data-target="beranda" class="nav-btn px-3 py-1 rounded-lg bg-[#798e9d] hover:bg-[#bab2a7]">Beranda</button>
         <button data-target="aktif" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Aktif</button>
@@ -28,8 +89,8 @@
 
         <!-- Dropdown -->
         <div id="profileMenu" class="hidden absolute right-0 mt-2 w-max min-w-[120px] bg-white rounded-lg shadow-lg overflow-hidden z-50">
-          <a href="/lomba/lombafix/profil.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
-          <a href="/lomba/lombafix/login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+          <a href="/lomba/profil.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
+          <a href="/lomba/login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
         </div>
       </div>
       </div>
