@@ -134,7 +134,6 @@
       text-decoration: underline;
     }
 
-
     .calendar-card {
       position: relative;
       display: flex;
@@ -187,6 +186,55 @@
       flex: 1;
     }
 
+
+    /* Responsif */
+    @media (max-width: 780px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      /* Kalender duluan di atas */
+      .calendar-card {
+        order: -1;
+        width: 130%;
+        max-width: none; /* biar bisa full lebar */
+        height: 250px;
+      }
+
+      .login-card {
+        width: 130%;
+        max-width: 400px;
+      }
+
+      /* Teks di kalender menyesuaikan */
+      .calendar-left h1 {
+        font-size: 2.4rem;
+      }
+      .calendar-left h2 {
+        font-size: 1.6rem;
+      }
+      .calendar-left p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .calendar-card {
+        height: 160px;
+      }
+
+      .calendar-left h1 {
+        font-size: 2rem;
+      }
+      .calendar-left h2 {
+        font-size: 1.3rem;
+      }
+      .calendar-left p {
+        font-size: 0.85rem;
+      }
+    }
 
   </style>
 </head>
