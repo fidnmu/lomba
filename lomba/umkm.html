@@ -10,29 +10,12 @@
       position: relative;
       display: inline-block;
     }
-
     .logo {
-      font-size: 32px; /* ukuran simbol ⾕ */
+      font-size: 32px;
       position: relative;
       z-index: 2;
     }
-
-    /* Titik cahaya pertama */
-    .logo-wrapper::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 6px;
-      height: 6px;
-      background: #798e9d;
-      border-radius: 50%;
-      transform: translate(-50%, -50%) rotate(0deg) translateX(22px);
-      animation: orbit-cw 1.5s linear infinite;
-      box-shadow: 0 0 6px #798e9d, 0 0 12px #798e9d;
-    }
-
-    /* Titik cahaya kedua */
+    .logo-wrapper::before,
     .logo-wrapper::after {
       content: "";
       position: absolute;
@@ -40,91 +23,119 @@
       left: 50%;
       width: 6px;
       height: 6px;
-      background: #bab2a7;
       border-radius: 50%;
+    }
+    .logo-wrapper::before {
+      background: #798e9d;
+      transform: translate(-50%, -50%) rotate(0deg) translateX(22px);
+      animation: orbit-cw 1.5s linear infinite;
+      box-shadow: 0 0 6px #798e9d, 0 0 12px #798e9d;
+    }
+    .logo-wrapper::after {
+      background: #bab2a7;
       transform: translate(-50%, -50%) rotate(180deg) translateX(22px);
       animation: orbit-ccw 1.5s linear infinite;
       box-shadow: 0 0 6px #bab2a7, 0 0 12px #bab2a7;
     }
-
-    /* Orbit searah jarum jam */
     @keyframes orbit-cw {
       from { transform: translate(-50%, -50%) rotate(0deg) translateX(22px); }
       to   { transform: translate(-50%, -50%) rotate(360deg) translateX(22px); }
     }
-
-    /* Orbit berlawanan arah jarum jam */
     @keyframes orbit-ccw {
       from { transform: translate(-50%, -50%) rotate(180deg) translateX(22px); }
       to   { transform: translate(-50%, -50%) rotate(-180deg) translateX(22px); }
     }
+      /* chatbot */
+    :root {
+      --c1: #383b4e;  
+      --c2: #bab2a7;  
+    }
 
+    #chatbase-bubble-button {
+      background-color: var(--c1) !important;
+      border: 2px solid var(--c2) !important;
+      color: white !important;
+    }
   </style>
 </head>
 <body class="bg-[#d8dddd] text-gray-800 font-sans">
 
   <!-- NAVBAR -->
-  <header class="text-white shadow-md" style="background-color:#383b4e;">
+  <header class="bg-[#383b4e] text-white shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-    <h1 class="text-2xl font-bold flex items-center">
-      <a href="/lomba/jasa.html" class="logo-wrapper relative inline-block mr-2">
-        <span class="logo">⾕</span>
-      </a>
-      UMKM Mart
-    </h1>
-      <nav id="navbar" class="space-x-4">
+      <!-- Logo -->
+      <h1 class="text-2xl font-bold flex items-center gap-2">
+        <a href="/lomba/jasa.html" class="logo-wrapper">
+          <span class="logo">⾕</span>
+        </a>
+        UMKM Mart
+      </h1>
+
+      <!-- Menu Desktop -->
+      <nav class="hidden md:flex space-x-4">
         <button data-target="beranda" class="nav-btn px-3 py-1 rounded-lg bg-[#798e9d] hover:bg-[#bab2a7]">Beranda</button>
         <button data-target="aktif" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Aktif</button>
         <button data-target="riwayat" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Riwayat</button>
         <button data-target="batal" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Batal</button>
         <button data-target="favorit" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Favorit</button>
       </nav>
-      <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:#bab2a7;">
-        <!-- PROFIL DROPDOWN -->
-      <div class="relative">
-        <button id="profileBtn" class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:#bab2a7;">
+
+      <!-- Burger Menu Button -->
+      <button id="burgerBtn" class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1">
+        <span class="w-6 h-0.5 bg-white transition-all duration-300"></span>
+        <span class="w-6 h-0.5 bg-white transition-all duration-300"></span>
+        <span class="w-6 h-0.5 bg-white transition-all duration-300"></span>
+      </button>
+
+      <!-- Profile Dropdown -->
+      <div class="relative hidden md:block">
+        <button id="profileBtn" class="w-10 h-10 rounded-full flex items-center justify-center bg-[#bab2a7]">
           <span class="text-[#383b4e]">👤</span>
         </button>
-
-        <!-- Dropdown -->
-        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-max min-w-[120px] bg-white rounded-lg shadow-lg overflow-hidden z-50">
+        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-max min-w-[140px] bg-white rounded-lg shadow-lg overflow-hidden z-50">
           <a href="/lomba/profil.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
-          <a href="/lomba/login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+          <a href="/lomba/login.html" id="logoutBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
         </div>
       </div>
-      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" 
+         class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out flex-col space-y-2 bg-[#2e3141] px-6 py-0 md:hidden">
+      <button data-target="beranda" class="nav-btn w-full text-left px-3 py-2 rounded-lg bg-[#798e9d]">Beranda</button>
+      <button data-target="aktif" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Aktif</button>
+      <button data-target="riwayat" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Riwayat</button>
+      <button data-target="batal" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Batal</button>
+      <button data-target="favorit" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Favorit</button>
+      <!-- Profil mobile -->
+      <a href="/lomba/profil.html" class="block px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Profil</a>
+      <a href="/lomba/login.html" class="block px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Log Out</a>
     </div>
   </header>
 
   <!-- BERANDA -->
-  <main id="beranda" class="section">
+  <section id="beranda" class="section">
     <!-- HERO -->
     <section class="relative bg-cover bg-center h-72" style="background-image: url('/lomba/sawah.jpg');">
       <div class="absolute inset-0 bg-gradient-to-r from-[#383b4e]/70 to-[#798e9d]/50"></div>
       <div class="relative z-10 max-w-3xl mx-auto text-center text-white py-16 px-6">
-        <h1 class="text-3xl font-bold mb-4">Temukan UMKM di Desa Anda</h1>
+        <h1 class="text-3xl sm:text-4xl font-bold mb-4">Temukan UMKM di Desa Anda</h1>
         <p class="mb-6">Jelajahi berbagai UMKM di sekitar Anda. 
           Cepat, mudah, dan menguatkan ekonomi lokal.
         </p>
-        <button id="heroSearchBtn" class="px-6 py-2 rounded-lg text-lg font-semibold" style="background-color:#798e9d;">
-          Cari UMKM
-        </button>
+        <button id="heroSearchBtn" class="px-6 py-2 rounded-lg text-lg font-semibold bg-[#798e9d] hover:bg-[#bab2a7]">Cari UMKM</button>
       </div>
     </section>
 
     <!-- SEARCH FILTER -->
     <section id="searchSection" class="max-w-6xl mx-auto px-4 py-6">
       <div class="flex flex-col sm:flex-row gap-4 items-center">
-        <input id="searchInput" type="text" placeholder="Cari: Kerajinan, Kue, Olahan..."
-          class="flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
-        <input id="lokasiInput" type="text" placeholder="+ lokasi (contoh: Kebun Agung)"
-          class="flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
-        <div class="flex flex-col items-start">
+        <input id="searchInput" type="text" placeholder="Cari: Kerajinan, Olahan, Karya..." class="w-[90%] sm:w-auto flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
+        <input id="lokasiInput" type="text" placeholder="+ lokasi (contoh: Kebun Agung)" class="w-[90%] sm:w-auto flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
+        <div class="flex flex-col items-start sm:items-center">
           <div class="flex items-center space-x-2">
             <label for="rangeHarga" class="text-sm text-[#383b4e] font-medium">Harga</label>
-            <input type="range" id="rangeHarga"
-              min="20000" max="500000" step="20000" value="500000"
-              class="w-40 accent-[#798e9d]">
+            <input type="range" id="rangeHarga" min="20000" max="500000" step="20000" value="500000" class="w-40 accent-[#798e9d]">
             <span id="labelHarga" class="text-sm font-semibold text-[#383b4e]">≤ Rp.500.000</span>
           </div>
         </div>
@@ -133,8 +144,8 @@
 
     <!-- KATEGORI -->
     <section class="max-w-6xl mx-auto px-4">
-      <div id="kategoriBtns" class="flex gap-2 mb-6 overflow-x-auto">
-        <button data-kategori="all" class="kategori-btn px-4 py-1 text-white rounded-full" style="background-color:#798e9d;">Semua</button>
+      <div id="kategoriBtns" class="flex gap-2 mb-6 overflow-x-auto pb-2">
+        <button data-kategori="all" class="kategori-btn px-4 py-1 border rounded-full active bg-[#798e9d] text-white" style="border-color:#798e9d;">Semua</button>
         <button data-kategori="Kerajinan" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Kerajinan</button>
         <button data-kategori="Kue" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Kue</button>
         <button data-kategori="Olahan" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Olahan</button>
@@ -144,9 +155,8 @@
     </section>
 
     <!-- LIST UMKM -->
-    <section class="max-w-6xl mx-auto px-4 pb-12" id="UMKM-list">
-      <div id="UMKMGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-      <!-- PAGINATION -->
+    <section class="max-w-6xl mx-auto px-4 pb-12">
+      <div id="UMKMGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
       <div class="flex justify-center space-x-3 mt-6">
         <button class="px-3 py-1 border border-gray-400 rounded-full">1</button>
         <button class="px-3 py-1 border border-gray-400 rounded-full">2</button>
@@ -154,52 +164,43 @@
         <span class="px-3 py-1">...</span>
       </div>
     </section>
+  </section>
+
+  <!-- SECTION TAMBAHAN -->
+  <main id="aktif" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
+    <p class="text-lg text-gray-600">Belum ada UMKM aktif.</p>
   </main>
 
-  <!-- AKTIF -->
-  <main id="aktif" class="section hidden">
-    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
-      <p class="text-lg text-gray-600">Belum ada UMKM aktif.</p>
-    </div>
+  <main id="riwayat" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
+    <p class="text-lg text-gray-600">Riwayat transaksi akan muncul di sini.</p>
   </main>
 
-  <!-- RIWAYAT -->
-  <main id="riwayat" class="section hidden">
-    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
-      <p class="text-lg text-gray-600">Riwayat transaksi akan muncul di sini.</p>
-    </div>
+  <main id="batal" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
+    <p class="text-lg text-gray-600">Belum ada transaksi batal.</p>
   </main>
 
-  <!-- BATAL -->
-  <main id="batal" class="section hidden">
-    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
-      <p class="text-lg text-gray-600">Belum ada transaksi batal.</p>
-    </div>
+  <main id="favorit" class="section hidden max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-bold mb-6 text-center">Favorit Saya</h2>
+    <div id="favorit-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </main>
 
-  <!-- FAVORIT -->
-  <main id="favorit" class="section hidden">
-    <div class="max-w-6xl mx-auto px-4 py-12">
-      <h2 class="text-2xl font-bold mb-6 text-center">Favorit Saya</h2>
-      <div id="favorit-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-    </div>
-  </main>
 
   <!-- FOOTER -->
-  <footer class="text-white py-8 mt-12" style="background-color:#383b4e;">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6">
+  <footer class="bg-[#383b4e] text-white py-10 mt-12">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-6 text-center">
       <div>
         <h4 class="font-semibold mb-2">Dapatkan Info Terbaru</h4>
-        <input type="email" placeholder="Email Anda" class="w-full px-3 py-2 rounded-lg text-gray-800 mb-2" />
-        <button class="w-full py-2 rounded-lg" style="background-color:#798e9d;">Submit</button>
+        <input type="email" placeholder="Email Anda" class="w-full px-3 py-2 rounded-lg text-gray-800 mb-2 text-center" />
+        <button class="w-full py-2 rounded-lg bg-[#798e9d] hover:bg-[#bab2a7]">Submit</button>
       </div>
       <div>
         <h4 class="font-semibold mb-2">Navigasi</h4>
-        <ul class="space-y-1">
-          <li><a href="#">Beranda</a></li>
-          <li><a href="#">Cari UMKM</a></li>
-          <li><a href="#">Riwayat</a></li>
-          <li><a href="#">Favorit</a></li>
+        <ul class="space-y-1 text-sm">
+          <li><a href="#" class="footer-link" data-target="beranda">Beranda</a></li>
+          <li><a href="#" class="footer-link" data-target="aktif">Aktif</a></li>
+          <li><a href="#" class="footer-link" data-target="riwayat">Riwayat</a></li>
+          <li><a href="#" class="footer-link" data-target="batal">Batal</a></li>
+          <li><a href="#" class="footer-link" data-target="favorit">Favorit</a></li>
         </ul>
       </div>
       <div>
@@ -212,36 +213,74 @@
         <h4 class="font-semibold mb-2">Jam Operasional</h4>
         <p>Senin – Kamis: 08.00–16.00</p>
         <p>Jumat – Minggu: 08.00–12.00</p>
-        <button class="mt-2 py-2 px-4 rounded-lg" style="background-color:#798e9d;">Hubungi via WhatsApp</button>
+        <button class="mt-2 py-2 px-4 rounded-lg bg-[#798e9d] hover:bg-[#bab2a7]">Hubungi via WhatsApp</button>
       </div>
     </div>
     <p class="text-center text-sm mt-6">&copy; 2025 UMKM Mart. All Rights Reserved.</p>
   </footer>
 
   <!-- MODAL ULAS -->
-  <div id="ulasModal" class="fixed inset-0 hidden items-center justify-center z-50">
-    <div class="absolute inset-0 bg-black/50"></div>
-    <div class="relative w-full max-w-md mx-4 rounded-2xl shadow-xl p-6 bg-white"
-         style="border:1px solid #bab2a7;">
+  <div id="ulasModal" class="fixed inset-0 hidden z-50 items-center justify-center">
+    <!-- Backdrop -->
+    <div id="ulasBackdrop" class="absolute inset-0 bg-black/50"></div>
+
+    <!-- Konten Modal -->
+    <div class="relative w-full max-w-md mx-4 rounded-2xl shadow-xl p-6 bg-white z-10 border border-[#bab2a7]">
+      <!-- Header -->
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-bold text-[#383b4e]">Beri Ulasan</h3>
-        <button id="closeUlas" class="px-2 py-1 rounded-lg text-sm" style="background-color:#bab2a7;color:#383b4e;">Tutup</button>
+        <button id="closeUlas"
+          class="px-3 py-1 rounded-lg text-sm font-medium"
+          style="background-color:#bab2a7;color:#383b4e;">
+          Tutup
+        </button>
       </div>
+
+      <!-- Body -->
       <div class="space-y-4">
+        <!-- Rating -->
         <div class="flex items-center space-x-2">
           <span class="text-sm text-[#383b4e]">Rating:</span>
           <div id="ratingStars" class="flex space-x-1"></div>
           <span id="ratingValue" class="text-sm font-semibold text-[#383b4e]">(0)</span>
         </div>
+
+        <!-- Komentar -->
         <textarea id="ratingNote" rows="3" placeholder="Tulis komentar (opsional)"
           class="w-full border border-[#bab2a7] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#798e9d]"></textarea>
-        <button id="submitUlas" class="w-full py-2 rounded-lg text-white font-semibold"
-          style="background-color:#383b4e;">Kirim</button>
+
+        <!-- Submit -->
+        <button id="submitUlas"
+          class="w-full py-2 rounded-lg text-white font-semibold"
+          style="background-color:#383b4e;">
+          Kirim
+        </button>
       </div>
     </div>
   </div>
 
   <script>
+    // === HAMBURGER MENU ===
+    const burgerBtn = document.getElementById("burgerBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const spans = burgerBtn.querySelectorAll("span");
+
+    burgerBtn.addEventListener("click", () => {
+      if (mobileMenu.classList.contains("max-h-0")) {
+        mobileMenu.classList.remove("max-h-0", "py-0");
+        mobileMenu.classList.add("max-h-[500px]", "py-4");
+      } else {
+        mobileMenu.classList.remove("max-h-[500px]", "py-4");
+        mobileMenu.classList.add("max-h-0", "py-0");
+      }
+
+      spans[0].classList.toggle("rotate-45");
+      spans[0].classList.toggle("translate-y-1");
+      spans[1].classList.toggle("opacity-0");
+      spans[2].classList.toggle("-rotate-45");
+      spans[2].classList.toggle("-translate-y-2");
+    });
+
     // === DROPDOWN PROFIL ===
     const profileBtn = document.getElementById("profileBtn");
     const profileMenu = document.getElementById("profileMenu");
@@ -250,25 +289,18 @@
       profileMenu.classList.toggle("hidden");
     });
 
-    // klik di luar dropdown -> tutup
     document.addEventListener("click", (e) => {
       if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
         profileMenu.classList.add("hidden");
       }
     });
 
-    // tombol logout
     document.getElementById("logoutBtn").addEventListener("click", () => {
       alert("Anda berhasil logout!");
-      window.location.href = "login.html"; // arahkan ke login.html (bisa kamu ubah)
+      window.location.href = "login.html";
     });
 
-    // === SCRIPT LAIN PUNYA KAMU TETAP ===
-    // (search, filter, favorit, ulasan, dll...)
-  </script>
-  <script>
     // ================== DATA UMKM ==================
-    // Tambah field 'wa' (nomor WhatsApp), ratingNumber & ratingCount agar ulasan bisa mempengaruhi rata-rata
     const UMKMData = [
       { id:1, nama:"Buket Sari Mawar", kategori:"Karya Seni", lokasi:"Desa Sumberlele", harga:75000, deskripsi:"Buket bunga segar untuk wisuda, ulang tahun, dan acara spesial.", wa:"628123001001", ratingNumber:4.7, ratingCount:23 },
       { id:2, nama:"Kerajinan Bambu Asri", kategori:"Kerajinan", lokasi:"Desa Sumberlele", harga:45000, deskripsi:"Tas anyaman, tempat pensil, dan hiasan dinding dari bambu.", wa:"628123001002", ratingNumber:4.9, ratingCount:31 },
@@ -278,14 +310,13 @@
       { id:6, nama:"Sambal Pecel Bu Tini", kategori:"Olahan", lokasi:"Desa Sumberlele", harga:12000, deskripsi:"Sambal pecel khas Jawa Timur, pedas gurih untuk lalapan.", wa:"628123001006", ratingNumber:4.6, ratingCount:21 }
     ];
 
-    // Muat pembaruan rating tersimpan (localStorage)
     const savedRatings = JSON.parse(localStorage.getItem("UMKMMart_ratings") || "{}");
     for (const id in savedRatings) {
       const idx = UMKMData.findIndex(j => j.id === Number(id));
       if (idx > -1) Object.assign(UMKMData[idx], savedRatings[id]);
     }
 
-    let favoritData = []; // simpan id UMKM yang di-favoritkan
+    let favoritData = [];
 
     const UMKMGrid = document.getElementById("UMKMGrid");
     const searchInput = document.getElementById("searchInput");
@@ -294,7 +325,6 @@
     const labelHarga = document.getElementById("labelHarga");
     const favoritList = document.getElementById("favorit-list");
 
-    // ===== Helper: render bintang & teks rating
     function starText(avg){
       const full = Math.floor(avg);
       const half = (avg - full >= 0.5) ? 1 : 0;
@@ -305,7 +335,7 @@
       return `${starText(j.ratingNumber)} (${j.ratingNumber.toFixed(1)})`;
     }
 
-    // ================== RENDER CARD DI BERANDA ==================
+    // ================== RENDER CARD BERANDA ==================
     function renderUMKM(data){
       UMKMGrid.innerHTML = "";
       if(data.length === 0){
@@ -335,21 +365,19 @@
         `;
       });
 
-      // Event tombol favorit
       document.querySelectorAll(".favorite-btn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const id = parseInt(btn.dataset.id);
           if(favoritData.includes(id)){
-            favoritData = favoritData.filter(f=>f!==id); // hapus dari favorit
+            favoritData = favoritData.filter(f=>f!==id);
           }else{
-            favoritData.push(id); // tambah ke favorit
+            favoritData.push(id);
           }
-          applyFilter(); // re-render beranda
-          renderFavorit(); // update halaman favorit
+          applyFilter();
+          renderFavorit();
         });
       });
 
-      // Event tombol ulas
       document.querySelectorAll(".ulasan-btn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           openUlasModal(parseInt(btn.dataset.id));
@@ -384,17 +412,15 @@
         `;
       });
 
-      // aktifkan event favorite di halaman favorit juga
       document.querySelectorAll("#favorit .favorite-btn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const id = parseInt(btn.dataset.id);
-          favoritData = favoritData.filter(f=>f!==id); // hapus dari favorit
-          applyFilter(); // update list UMKM di beranda
-          renderFavorit(); // update halaman favorit
+          favoritData = favoritData.filter(f=>f!==id);
+          applyFilter();
+          renderFavorit();
         });
       });
 
-      // ulasan dari halaman favorit
       document.querySelectorAll("#favorit .ulasan-btn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           openUlasModal(parseInt(btn.dataset.id));
@@ -402,7 +428,7 @@
       });
     }
 
-    // ================== FILTER FUNCTION ==================
+    // ================== FILTER ==================
     function applyFilter(){
       let keyword = searchInput.value.toLowerCase();
       let lokasi = lokasiInput.value.toLowerCase();
@@ -421,7 +447,6 @@
       renderUMKM(hasil);
     }
 
-    // ================== EVENT LISTENER ==================
     searchInput.addEventListener("input", applyFilter);
     lokasiInput.addEventListener("input", applyFilter);
     rangeHarga.addEventListener("input", applyFilter);
@@ -434,29 +459,51 @@
       });
     });
 
-    // Hero button scroll ke search
     document.getElementById("heroSearchBtn").addEventListener("click", ()=>{
       document.getElementById("searchSection").scrollIntoView({behavior:"smooth"});
     });
 
-    // Navigasi antar section
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
-        document.getElementById(btn.dataset.target).classList.remove('hidden');
+    // ================== NAVIGASI ==================
+    const navBtns = document.querySelectorAll(".nav-btn");
+    const sections = document.querySelectorAll(".section");
+    const footerLinks = document.querySelectorAll(".footer-link");
+    const validTargets = new Set(["beranda","aktif","riwayat","batal","favorit"]);
 
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('bg-[#798e9d]'));
-        btn.classList.add('bg-[#798e9d]');
+    function activateNav(targetId) {
+      if (!validTargets.has(targetId)) targetId = "beranda";
 
-        if(btn.dataset.target === "favorit"){ // auto refresh favorit
-          renderFavorit();
+      sections.forEach(sec => sec.classList.add("hidden"));
+      document.getElementById(targetId).classList.remove("hidden");
+
+      navBtns.forEach(b => b.classList.remove("bg-[#798e9d]","text-white"));
+      navBtns.forEach(b => {
+        if (b.dataset.target === targetId) {
+          b.classList.add("bg-[#798e9d]","text-white");
         }
+      });
+
+      if (targetId === "favorit") renderFavorit();
+
+      if (!mobileMenu.classList.contains("max-h-0")) {
+        burgerBtn.click();
+      }
+    }
+
+    navBtns.forEach(btn => {
+      btn.addEventListener("click", () => activateNav(btn.dataset.target));
+    });
+
+    footerLinks.forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        activateNav(link.dataset.target);
       });
     });
 
     // ================== MODAL ULAS ==================
     const ulasModal = document.getElementById("ulasModal");
     const closeUlas = document.getElementById("closeUlas");
+    const ulasBackdrop = document.getElementById("ulasBackdrop");
     const ratingStars = document.getElementById("ratingStars");
     const ratingValue = document.getElementById("ratingValue");
     const ratingNote  = document.getElementById("ratingNote");
@@ -471,7 +518,7 @@
         b.type="button";
         b.className="text-2xl";
         b.textContent = i<=current ? "★" : "☆";
-        b.style.color = i<=current ? "#fbbf24" : "#9ca3af"; // amber-400 / gray-400
+        b.style.color = i<=current ? "#fbbf24" : "#9ca3af";
         b.addEventListener("click", ()=>{
           chosenRating = i;
           drawStars(i);
@@ -494,7 +541,7 @@
       ulasModal.classList.remove("flex");
     }
     closeUlas.addEventListener("click", closeModal);
-    ulasModal.addEventListener("click", (e)=>{ if(e.target === ulasModal) closeModal(); });
+    ulasBackdrop.addEventListener("click", closeModal);
 
     submitUlas.addEventListener("click", ()=>{
       if(!currentUlasId) return;
@@ -505,27 +552,33 @@
       const j = UMKMData.find(x=>x.id===currentUlasId);
       if(!j) return;
 
-      // update rata-rata
       const total = j.ratingNumber * j.ratingCount + chosenRating;
       j.ratingCount += 1;
       j.ratingNumber = total / j.ratingCount;
 
-      // simpan ke localStorage biar persistent
       const map = JSON.parse(localStorage.getItem("UMKMMart_ratings") || "{}");
       map[j.id] = { ratingNumber: j.ratingNumber, ratingCount: j.ratingCount };
       localStorage.setItem("UMKMMart_ratings", JSON.stringify(map));
 
-      // (opsional) komentar bisa dipakai nanti
-      // const note = ratingNote.value.trim();
-
-      applyFilter();      // re-render kartu di beranda dgn rating baru
-      renderFavorit();    // re-render favorit jika terbuka
+      applyFilter();
+      renderFavorit();
       closeModal();
     });
 
-    // Inisialisasi awal
-    applyFilter();   // ini sekaligus render awal
+    // ================== INIT ==================
+    applyFilter();
     renderFavorit();
+    activateNav("beranda");
+
+    // === CHATBOT AI ===
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized")
+    {window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}
+    window.chatbase.q.push(arguments)};
+    window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}
+    const onLoad=function(){const script=document.createElement("script");
+    script.src="https://www.chatbase.co/embed.min.js";script.id="qyImtPkSzw_FeFA904WKD";
+    script.domain="www.chatbase.co";document.body.appendChild(script)};
+    if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
   </script>
 
 </body>
