@@ -45,7 +45,20 @@
       from { transform: translate(-50%, -50%) rotate(180deg) translateX(22px); }
       to   { transform: translate(-50%, -50%) rotate(-180deg) translateX(22px); }
     }
-      /* chatbot */
+    
+    @keyframes dot-bounce {
+      0%   { transform: scale(0.9); }
+      50%  { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .dot-bounce {
+      animation: dot-bounce 0.3s ease-out;
+    }
+    .dot-hover:hover {
+      animation: dot-bounce 0.2s ease-out;
+    }
+
+  /* chatbot */
     :root {
       --c1: #383b4e;  
       --c2: #bab2a7;  
@@ -58,7 +71,7 @@
     }
   </style>
 </head>
-<body class="bg-[#d8dddd] text-gray-800 font-sans">
+<body class="bg-[#d8dddd] text-gray-800 font-sans flex flex-col min-h-screen">
 
   <!-- NAVBAR -->
   <header class="bg-[#383b4e] text-white shadow-md sticky top-0 z-50">
@@ -113,77 +126,72 @@
     </div>
   </header>
 
+  <div class="flex-grow">
   <!-- BERANDA -->
-  <section id="beranda" class="section">
-    <!-- HERO -->
-    <section class="relative bg-cover bg-center h-72" style="background-image: url('/lomba/sawah.jpg');">
-      <div class="absolute inset-0 bg-gradient-to-r from-[#383b4e]/70 to-[#798e9d]/50"></div>
-      <div class="relative z-10 max-w-3xl mx-auto text-center text-white py-16 px-6">
-        <h1 class="text-3xl sm:text-4xl font-bold mb-4">Temukan UMKM di Desa Anda</h1>
-        <p class="mb-6">Jelajahi berbagai UMKM di sekitar Anda. 
-          Cepat, mudah, dan menguatkan ekonomi lokal.
-        </p>
-        <button id="heroSearchBtn" class="px-6 py-2 rounded-lg text-lg font-semibold bg-[#798e9d] hover:bg-[#bab2a7]">Cari UMKM</button>
-      </div>
-    </section>
+    <section id="beranda" class="section flex-grow">
+      <!-- HERO -->
+      <section class="relative bg-cover bg-center h-72" style="background-image: url('/lomba/sawah.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#383b4e]/70 to-[#798e9d]/50"></div>
+        <div class="relative z-10 max-w-3xl mx-auto text-center text-white py-16 px-6">
+          <h1 class="text-3xl sm:text-4xl font-bold mb-4">Temukan UMKM di Desa Anda</h1>
+          <p class="mb-6 text-sm sm:text-base">Jelajahi berbagai UMKM di sekitar Anda. 
+          Cepat, mudah, dan menguatkan ekonomi lokal.</p>
+          <button id="heroSearchBtn" class="px-6 py-2 rounded-lg text-lg font-semibold bg-[#798e9d] hover:bg-[#bab2a7]">Cari UMKM</button>
+        </div>
+      </section>
 
-    <!-- SEARCH FILTER -->
-    <section id="searchSection" class="max-w-6xl mx-auto px-4 py-6">
-      <div class="flex flex-col sm:flex-row gap-4 items-center">
-        <input id="searchInput" type="text" placeholder="Cari: Kerajinan, Olahan, Karya..." class="w-[90%] sm:w-auto flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
-        <input id="lokasiInput" type="text" placeholder="+ lokasi (contoh: Kebun Agung)" class="w-[90%] sm:w-auto flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
-        <div class="flex flex-col items-start sm:items-center">
-          <div class="flex items-center space-x-2">
-            <label for="rangeHarga" class="text-sm text-[#383b4e] font-medium">Harga</label>
-            <input type="range" id="rangeHarga" min="20000" max="500000" step="20000" value="500000" class="w-40 accent-[#798e9d]">
-            <span id="labelHarga" class="text-sm font-semibold text-[#383b4e]">≤ Rp.500.000</span>
+      <!-- SEARCH FILTER -->
+      <section id="searchSection" class="max-w-6xl mx-auto px-4 py-6">
+        <div class="flex flex-col sm:flex-row gap-4 items-center">
+          <input id="searchInput" type="text" placeholder="Cari: Tukang, Petani, Penjahit..." class="w-[90%] sm:w-auto flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
+          <input id="lokasiInput" type="text" placeholder="+ lokasi (contoh: Kebun Agung)" class="w-[90%] sm:w-auto flex-1 border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-[#798e9d]" />
+          <div class="flex flex-col items-start sm:items-center">
+            <div class="flex items-center space-x-2">
+              <label for="rangeHarga" class="text-sm text-[#383b4e] font-medium">Harga</label>
+              <input type="range" id="rangeHarga" min="20000" max="500000" step="20000" value="500000" class="w-40 accent-[#798e9d]">
+              <span id="labelHarga" class="text-sm font-semibold text-[#383b4e]">≤ Rp.500.000</span>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- KATEGORI -->
+      <section class="max-w-6xl mx-auto px-4">
+        <div id="kategoriBtns" class="flex gap-2 mb-6 overflow-x-auto pb-2">
+          <button data-kategori="all" class="kategori-btn px-4 py-1 border rounded-full active bg-[#798e9d] text-white" style="border-color:#798e9d;">Semua</button>
+          <button data-kategori="Kerajinan" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Kerajinan</button>
+          <button data-kategori="Kue" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Kue</button>
+          <button data-kategori="Makanan & Minuman" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Makanan & Minuman</button>
+          <button data-kategori="Seni & Souvenir" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Seni & Souvenir</button>
+          <button data-kategori="Lainnya" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Lainnya</button>
+        </div>
+      </section>
+
+      <!-- LIST UMKM -->
+      <section class="max-w-6xl mx-auto px-4 pb-12">
+        <div id="UMKMGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+        <div id="pagination" class="flex justify-center space-x-3 mt-6"></div>
+      </section>
     </section>
 
-    <!-- KATEGORI -->
-    <section class="max-w-6xl mx-auto px-4">
-      <div id="kategoriBtns" class="flex gap-2 mb-6 overflow-x-auto pb-2">
-        <button data-kategori="all" class="kategori-btn px-4 py-1 border rounded-full active bg-[#798e9d] text-white" style="border-color:#798e9d;">Semua</button>
-        <button data-kategori="Kerajinan" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Kerajinan</button>
-        <button data-kategori="Kue" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Kue</button>
-        <button data-kategori="Olahan" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Olahan</button>
-        <button data-kategori="Karya Seni" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Karya Seni</button>
-        <button data-kategori="Lainnya" class="kategori-btn px-4 py-1 border rounded-full" style="border-color:#798e9d;">Lainnya</button>
-      </div>
-    </section>
+    <!-- SECTION TAMBAHAN -->
+    <main id="aktif" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center ">
+      <p class="text-lg text-gray-600">Belum ada UMKM aktif.</p>
+    </main>
 
-    <!-- LIST UMKM -->
-    <section class="max-w-6xl mx-auto px-4 pb-12">
-      <div id="UMKMGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
-      <div class="flex justify-center space-x-3 mt-6">
-        <button class="px-3 py-1 border border-gray-400 rounded-full">1</button>
-        <button class="px-3 py-1 border border-gray-400 rounded-full">2</button>
-        <button class="px-3 py-1 border border-gray-400 rounded-full">3</button>
-        <span class="px-3 py-1">...</span>
-      </div>
-    </section>
-  </section>
+    <main id="riwayat" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
+      <p class="text-lg text-gray-600">Riwayat transaksi akan muncul di sini.</p>
+    </main>
 
-  <!-- SECTION TAMBAHAN -->
-  <main id="aktif" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
-    <p class="text-lg text-gray-600">Belum ada UMKM aktif.</p>
-  </main>
+    <main id="batal" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
+      <p class="text-lg text-gray-600">Belum ada transaksi batal.</p>
+    </main>
 
-  <main id="riwayat" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
-    <p class="text-lg text-gray-600">Riwayat transaksi akan muncul di sini.</p>
-  </main>
-
-  <main id="batal" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
-    <p class="text-lg text-gray-600">Belum ada transaksi batal.</p>
-  </main>
-
-  <main id="favorit" class="section hidden max-w-6xl mx-auto px-4 py-12">
-    <h2 class="text-2xl font-bold mb-6 text-center">Favorit Saya</h2>
-    <div id="favorit-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-  </main>
-
+    <main id="favorit" class="section hidden max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold mb-6 text-center">Favorit Saya</h2>
+      <div id="favorit-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </main>
+  </div>
 
   <!-- FOOTER -->
   <footer class="bg-[#383b4e] text-white py-10 mt-12">
@@ -218,47 +226,29 @@
     </div>
     <p class="text-center text-sm mt-6">&copy; 2025 UMKM Mart. All Rights Reserved.</p>
   </footer>
-
   <!-- MODAL ULAS -->
-  <div id="ulasModal" class="fixed inset-0 hidden z-50 items-center justify-center">
-    <!-- Backdrop -->
-    <div id="ulasBackdrop" class="absolute inset-0 bg-black/50"></div>
-
-    <!-- Konten Modal -->
-    <div class="relative w-full max-w-md mx-4 rounded-2xl shadow-xl p-6 bg-white z-10 border border-[#bab2a7]">
-      <!-- Header -->
+  <div id="ulasModal" class="fixed inset-0 hidden items-center justify-center z-50">
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative w-full max-w-md mx-4 rounded-2xl shadow-xl p-6 bg-white"
+         style="border:1px solid #bab2a7;">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-bold text-[#383b4e]">Beri Ulasan</h3>
-        <button id="closeUlas"
-          class="px-3 py-1 rounded-lg text-sm font-medium"
-          style="background-color:#bab2a7;color:#383b4e;">
-          Tutup
-        </button>
+        <button id="closeUlas" class="px-2 py-1 rounded-lg text-sm" style="background-color:#bab2a7;color:#383b4e;">Tutup</button>
       </div>
-
-      <!-- Body -->
       <div class="space-y-4">
-        <!-- Rating -->
         <div class="flex items-center space-x-2">
           <span class="text-sm text-[#383b4e]">Rating:</span>
           <div id="ratingStars" class="flex space-x-1"></div>
           <span id="ratingValue" class="text-sm font-semibold text-[#383b4e]">(0)</span>
         </div>
-
-        <!-- Komentar -->
         <textarea id="ratingNote" rows="3" placeholder="Tulis komentar (opsional)"
           class="w-full border border-[#bab2a7] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#798e9d]"></textarea>
-
-        <!-- Submit -->
-        <button id="submitUlas"
-          class="w-full py-2 rounded-lg text-white font-semibold"
-          style="background-color:#383b4e;">
-          Kirim
-        </button>
+        <button id="submitUlas" class="w-full py-2 rounded-lg text-white font-semibold"
+          style="background-color:#383b4e;">Kirim</button>
       </div>
     </div>
   </div>
-
+  
   <script>
     // === HAMBURGER MENU ===
     const burgerBtn = document.getElementById("burgerBtn");
@@ -266,6 +256,7 @@
     const spans = burgerBtn.querySelectorAll("span");
 
     burgerBtn.addEventListener("click", () => {
+      // Toggle slide menu
       if (mobileMenu.classList.contains("max-h-0")) {
         mobileMenu.classList.remove("max-h-0", "py-0");
         mobileMenu.classList.add("max-h-[500px]", "py-4");
@@ -274,9 +265,12 @@
         mobileMenu.classList.add("max-h-0", "py-0");
       }
 
+      // Animasi burger -> X
       spans[0].classList.toggle("rotate-45");
       spans[0].classList.toggle("translate-y-1");
+
       spans[1].classList.toggle("opacity-0");
+
       spans[2].classList.toggle("-rotate-45");
       spans[2].classList.toggle("-translate-y-2");
     });
@@ -289,34 +283,50 @@
       profileMenu.classList.toggle("hidden");
     });
 
+    // klik di luar dropdown -> tutup
     document.addEventListener("click", (e) => {
       if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
         profileMenu.classList.add("hidden");
       }
     });
 
+    // tombol logout
     document.getElementById("logoutBtn").addEventListener("click", () => {
       alert("Anda berhasil logout!");
-      window.location.href = "login.html";
+      window.location.href = "login.html"; // arahkan ke login.html (bisa kamu ubah)
     });
+  </script>
 
+  <script>
     // ================== DATA UMKM ==================
     const UMKMData = [
-      { id:1, nama:"Buket Sari Mawar", kategori:"Karya Seni", lokasi:"Desa Sumberlele", harga:75000, deskripsi:"Buket bunga segar untuk wisuda, ulang tahun, dan acara spesial.", wa:"628123001001", ratingNumber:4.7, ratingCount:23 },
+      { id:1, nama:"Buket Sari Mawar", kategori:"Seni & Souvenir", lokasi:"Desa Sumberlele", harga:75000, deskripsi:"Buket bunga segar untuk wisuda, ulang tahun, dan acara spesial.", wa:"628123001001", ratingNumber:4.7, ratingCount:23 },
       { id:2, nama:"Kerajinan Bambu Asri", kategori:"Kerajinan", lokasi:"Desa Sumberlele", harga:45000, deskripsi:"Tas anyaman, tempat pensil, dan hiasan dinding dari bambu.", wa:"628123001002", ratingNumber:4.9, ratingCount:31 },
       { id:3, nama:"Kue Tradisional Mak Yani", kategori:"Kue", lokasi:"Desa Kebon Agong", harga:25000, deskripsi:"Kue lapis, onde-onde, klepon, dan jajanan pasar lainnya.", wa:"628123001003", ratingNumber:4.5, ratingCount:18 },
-      { id:4, nama:"Keripik Singkong Bu Dewi", kategori:"Olahan", lokasi:"Desa Kebon Agung", harga:15000, deskripsi:"Keripik singkong renyah dengan berbagai varian rasa pedas manis.", wa:"628123001004", ratingNumber:4.3, ratingCount:14 },
+      { id:4, nama:"Keripik Singkong Bu Dewi", kategori:"Makanan & Minuman", lokasi:"Desa Kebon Agung", harga:15000, deskripsi:"Keripik singkong renyah dengan berbagai varian rasa pedas manis.", wa:"628123001004", ratingNumber:4.3, ratingCount:14 },
       { id:5, nama:"Rajut Cantik Handmade", kategori:"Kerajinan", lokasi:"Desa Asembakor", harga:85000, deskripsi:"Tas rajut, topi, dan aksesoris rajutan dengan motif unik.", wa:"628123001005", ratingNumber:4.8, ratingCount:40 },
-      { id:6, nama:"Sambal Pecel Bu Tini", kategori:"Olahan", lokasi:"Desa Sumberlele", harga:12000, deskripsi:"Sambal pecel khas Jawa Timur, pedas gurih untuk lalapan.", wa:"628123001006", ratingNumber:4.6, ratingCount:21 }
+      { id:6, nama:"Sambal Pecel Bu Tini", kategori:"Makanan & Minuman", lokasi:"Desa Sumberlele", harga:12000, deskripsi:"Sambal pecel khas Jawa Timur, pedas gurih untuk lalapan.", wa:"628123001006", ratingNumber:4.6, ratingCount:21 },
+      { id:7, nama:"Batik Lestari", kategori:"Seni & Souvenir", lokasi:"Desa Karanganyar", harga:150000, deskripsi:"Kain batik tulis motif klasik dan modern.", wa:"628123001007", ratingNumber:4.8, ratingCount:27 },
+      { id:8, nama:"Madu Hutan Pak Rudi", kategori:"Makanan & Minuman", lokasi:"Desa Asembakor", harga:60000, deskripsi:"Madu hutan murni asli tanpa campuran, kemasan botol 500ml.", wa:"628123001008", ratingNumber:4.7, ratingCount:22 },
+      { id:9, nama:"Kerajinan Kulit Sido Makmur", kategori:"Kerajinan", lokasi:"Desa Kebon Agung", harga:120000, deskripsi:"Dompet, ikat pinggang, dan tas kulit asli handmade.", wa:"628123001009", ratingNumber:4.9, ratingCount:19 },
+      { id:10, nama:"Kopi Desa Wonosari", kategori:"Makanan & Minuman", lokasi:"Desa Karanganyar", harga:35000, deskripsi:"Kopi robusta bubuk khas desa, aroma kuat rasa mantap.", wa:"628123001010", ratingNumber:4.6, ratingCount:33 },
+      { id:11, nama:"Anyaman Pandan Bu Rini", kategori:"Kerajinan", lokasi:"Desa Sumberlele", harga:40000, deskripsi:"Tikar, tas, dan dompet dari anyaman pandan.", wa:"628123001011", ratingNumber:4.4, ratingCount:16 },
+      { id:12, nama:"Brownies Panggang Mbak Susi", kategori:"Kue", lokasi:"Desa Asembakor", harga:50000, deskripsi:"Brownies panggang cokelat lembut, tersedia varian keju & kacang.", wa:"628123001012", ratingNumber:4.8, ratingCount:28 },
+      { id:13, nama:"Es Krim Tradisional Es Puter", kategori:"Makanan & Minuman", lokasi:"Desa Karanganyar", harga:10000, deskripsi:"Es puter kelapa muda, durian, dan kacang hijau, segar alami.", wa:"628123001013", ratingNumber:4.5, ratingCount:21 },
+      { id:14, nama:"Souvenir Kayu Kreatif", kategori:"Seni & Souvenir", lokasi:"Desa Kebon Agung", harga:70000, deskripsi:"Souvenir pernikahan, hiasan meja, dan gantungan kunci kayu.", wa:"628123001014", ratingNumber:4.7, ratingCount:26 },
+      { id:15, nama:"Kerupuk Ikan Bu Sumarni", kategori:"Makanan & Minuman", lokasi:"Desa Sumberlele", harga:18000, deskripsi:"Kerupuk ikan gurih dan renyah, cocok untuk lauk dan camilan.", wa:"628123001015", ratingNumber:4.6, ratingCount:32 },
+      { id:16, nama:"Topi Rajut Mbak Fitri", kategori:"Kerajinan", lokasi:"Desa Asembakor", harga:55000, deskripsi:"Topi rajut hangat dan stylish, tersedia berbagai warna.", wa:"628123001016", ratingNumber:4.7, ratingCount:20 }
     ];
 
+
+    // Muat pembaruan rating tersimpan (localStorage)
     const savedRatings = JSON.parse(localStorage.getItem("UMKMMart_ratings") || "{}");
     for (const id in savedRatings) {
       const idx = UMKMData.findIndex(j => j.id === Number(id));
       if (idx > -1) Object.assign(UMKMData[idx], savedRatings[id]);
     }
 
-    let favoritData = [];
+    let favoritData = []; // simpan id UMKM yang di-favoritkan
 
     const UMKMGrid = document.getElementById("UMKMGrid");
     const searchInput = document.getElementById("searchInput");
@@ -325,6 +335,7 @@
     const labelHarga = document.getElementById("labelHarga");
     const favoritList = document.getElementById("favorit-list");
 
+    // ===== Helper Rating
     function starText(avg){
       const full = Math.floor(avg);
       const half = (avg - full >= 0.5) ? 1 : 0;
@@ -336,35 +347,95 @@
     }
 
     // ================== RENDER CARD BERANDA ==================
-    function renderUMKM(data){
-      UMKMGrid.innerHTML = "";
-      if(data.length === 0){
-        UMKMGrid.innerHTML = `<p class="col-span-3 text-center text-gray-600">Tidak ada UMKM ditemukan</p>`;
-        return;
-      }
-      data.forEach(j => {
-        const isFav = favoritData.includes(j.id);
-        const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo "+j.nama+", saya tertarik menggunakan UMKM Anda.")}`;
-        const [stars, paren] = [ratingLabel(j).split(" ")[0], `(${j.ratingNumber.toFixed(1)})`];
+    // === PAGINATION ===
+    let currentPage = 1;
+    const itemsPerPage = 6;
 
-        UMKMGrid.innerHTML += `
-          <div class="card bg-white rounded-xl shadow-md p-4">
-            <h3 class="font-bold text-lg">${j.nama}</h3>
-            <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
-            <p class="font-semibold mb-2 text-[#798e9d]">Rp ${j.harga.toLocaleString("id-ID")} / sesi</p>
-            <div class="flex items-center mb-4">
-              <span class="text-yellow-400">${stars}</span>
-              <span class="ml-2 text-sm text-gray-500">${paren}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <a href="${waLink}" target="_blank" rel="noopener" class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</a>
-              <button class="ulasan-btn text-sm text-[#4c3d3e]" data-id="${j.id}">Ulas</button>
-              <button class="favorite-btn ${isFav ? "text-red-500" : "text-gray-400"} text-lg" data-id="${j.id}">♥</button>
-            </div>
-          </div>
-        `;
+  function renderPagination(totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const container = document.querySelector("#pagination");
+    container.innerHTML = "";
+
+    for (let i = 1; i <= totalPages; i++) {
+      const dot = document.createElement("button");
+      dot.className =
+        (i === currentPage
+          ? "w-3 h-3 bg-[#383b4e] scale-100 dot-bounce"
+          : "w-3 h-3 bg-white hover:bg-[#798e9d] scale-100") +
+        " rounded-full border border-[#383b4e] transition-all duration-300 dot-hover";
+
+      dot.addEventListener("click", () => {
+        currentPage = i;
+        applyFilter(); // render ulang sesuai halaman
       });
 
+      container.appendChild(dot);
+    }
+  }
+
+    function renderUMKM(data) {
+      UMKMGrid.innerHTML = "";
+
+      // hitung index untuk halaman ini
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageData = data.slice(start, end);
+
+      if (pageData.length === 0) {
+        UMKMGrid.innerHTML =
+          `<p class="col-span-3 text-center text-gray-600">Tidak ada UMKM ditemukan</p>`;
+      } else {
+        pageData.forEach(j => {
+          const isFav = favoritData.includes(j.id);
+          const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo " + j.nama + ", saya tertarik menggunakan UMKM Anda.")}`;
+          const [stars, paren] = [ratingLabel(j).split(" ")[0], `(${j.ratingNumber.toFixed(1)})`];
+
+          UMKMGrid.innerHTML += `
+            <div class="card bg-white rounded-xl shadow-md p-4">
+              <h3 class="font-bold text-lg">${j.nama}</h3>
+              <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
+              <p class="font-semibold mb-2 text-[#798e9d]">Rp ${j.harga.toLocaleString("id-ID")} / sesi</p>
+              <div class="flex items-center mb-4">
+                <span class="text-yellow-400">${stars}</span>
+                <span class="ml-2 text-sm text-gray-500">${paren}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <a href="${waLink}" target="_blank" rel="noopener" class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</a>
+                <button class="ulasan-btn text-sm text-[#4c3d3e]" data-id="${j.id}">Ulas</button>
+                <button class="favorite-btn ${isFav ? "text-red-500" : "text-gray-400"} text-lg" data-id="${j.id}">♥</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      // render pagination sesuai jumlah data
+      renderPagination(data.length);
+
+      // Event tombol favorit
+      document.querySelectorAll(".favorite-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = parseInt(btn.dataset.id);
+          if (favoritData.includes(id)) {
+            favoritData = favoritData.filter(f => f !== id);
+          } else {
+            favoritData.push(id);
+          }
+          applyFilter();
+          renderFavorit();
+        });
+      });
+
+      // Event tombol ulas
+      document.querySelectorAll(".ulasan-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          openUlasModal(parseInt(btn.dataset.id));
+        });
+      });
+    }
+
+
+      // Event tombol favorit (di kartu)
       document.querySelectorAll(".favorite-btn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const id = parseInt(btn.dataset.id);
@@ -373,17 +444,18 @@
           }else{
             favoritData.push(id);
           }
-          applyFilter();
-          renderFavorit();
+          applyFilter();  // re-render beranda
+          renderFavorit(); // update halaman favorit
         });
       });
 
+      // Event tombol ulas (di kartu)
       document.querySelectorAll(".ulasan-btn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           openUlasModal(parseInt(btn.dataset.id));
         });
       });
-    }
+      
 
     // ================== RENDER FAVORIT ==================
     function renderFavorit(){
@@ -412,6 +484,7 @@
         `;
       });
 
+      // Hapus favorit dari halaman Favorit
       document.querySelectorAll("#favorit .favorite-btn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const id = parseInt(btn.dataset.id);
@@ -421,6 +494,7 @@
         });
       });
 
+      // Ulas dari halaman Favorit
       document.querySelectorAll("#favorit .ulasan-btn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           openUlasModal(parseInt(btn.dataset.id));
@@ -429,7 +503,7 @@
     }
 
     // ================== FILTER ==================
-    function applyFilter(){
+    function applyFilter() {
       let keyword = searchInput.value.toLowerCase();
       let lokasi = lokasiInput.value.toLowerCase();
       let maxHarga = parseInt(rangeHarga.value);
@@ -443,10 +517,17 @@
         return cocokNama && cocokLokasi && cocokHarga && cocokKategori;
       });
 
+      // reset halaman kalau melebihi jumlah hasil
+      if (currentPage > Math.ceil(hasil.length / itemsPerPage)) {
+        currentPage = 1;
+      }
+
       labelHarga.innerText = `≤ Rp.${maxHarga.toLocaleString("id-ID")}`;
       renderUMKM(hasil);
     }
 
+
+    // ================== EVENT FILTER UI ==================
     searchInput.addEventListener("input", applyFilter);
     lokasiInput.addEventListener("input", applyFilter);
     rangeHarga.addEventListener("input", applyFilter);
@@ -459,11 +540,12 @@
       });
     });
 
+    // Hero button scroll ke search
     document.getElementById("heroSearchBtn").addEventListener("click", ()=>{
       document.getElementById("searchSection").scrollIntoView({behavior:"smooth"});
     });
 
-    // ================== NAVIGASI ==================
+    // ================== NAVIGASI (Navbar + Mobile + Footer) ==================
     const navBtns = document.querySelectorAll(".nav-btn");
     const sections = document.querySelectorAll(".section");
     const footerLinks = document.querySelectorAll(".footer-link");
@@ -472,9 +554,11 @@
     function activateNav(targetId) {
       if (!validTargets.has(targetId)) targetId = "beranda";
 
+      // Sembunyikan semua section & tampilkan target
       sections.forEach(sec => sec.classList.add("hidden"));
       document.getElementById(targetId).classList.remove("hidden");
 
+      // Reset + highlight tombol nav yang aktif (desktop & mobile)
       navBtns.forEach(b => b.classList.remove("bg-[#798e9d]","text-white"));
       navBtns.forEach(b => {
         if (b.dataset.target === targetId) {
@@ -482,17 +566,21 @@
         }
       });
 
+      // Render favorit jika perlu
       if (targetId === "favorit") renderFavorit();
 
+      // Tutup mobile menu jika terbuka
       if (!mobileMenu.classList.contains("max-h-0")) {
         burgerBtn.click();
       }
     }
 
+    // Klik navbar & mobile nav
     navBtns.forEach(btn => {
       btn.addEventListener("click", () => activateNav(btn.dataset.target));
     });
 
+    // Klik footer
     footerLinks.forEach(link => {
       link.addEventListener("click", e => {
         e.preventDefault();
@@ -503,7 +591,6 @@
     // ================== MODAL ULAS ==================
     const ulasModal = document.getElementById("ulasModal");
     const closeUlas = document.getElementById("closeUlas");
-    const ulasBackdrop = document.getElementById("ulasBackdrop");
     const ratingStars = document.getElementById("ratingStars");
     const ratingValue = document.getElementById("ratingValue");
     const ratingNote  = document.getElementById("ratingNote");
@@ -518,7 +605,7 @@
         b.type="button";
         b.className="text-2xl";
         b.textContent = i<=current ? "★" : "☆";
-        b.style.color = i<=current ? "#fbbf24" : "#9ca3af";
+        b.style.color = i<=current ? "#fbbf24" : "#9ca3af"; // amber-400 / gray-400
         b.addEventListener("click", ()=>{
           chosenRating = i;
           drawStars(i);
@@ -541,7 +628,7 @@
       ulasModal.classList.remove("flex");
     }
     closeUlas.addEventListener("click", closeModal);
-    ulasBackdrop.addEventListener("click", closeModal);
+    ulasModal.addEventListener("click", (e)=>{ if(e.target === ulasModal) closeModal(); });
 
     submitUlas.addEventListener("click", ()=>{
       if(!currentUlasId) return;
@@ -552,25 +639,28 @@
       const j = UMKMData.find(x=>x.id===currentUlasId);
       if(!j) return;
 
+      // update rata-rata
       const total = j.ratingNumber * j.ratingCount + chosenRating;
       j.ratingCount += 1;
       j.ratingNumber = total / j.ratingCount;
 
+      // simpan ke localStorage biar persistent
       const map = JSON.parse(localStorage.getItem("UMKMMart_ratings") || "{}");
       map[j.id] = { ratingNumber: j.ratingNumber, ratingCount: j.ratingCount };
       localStorage.setItem("UMKMMart_ratings", JSON.stringify(map));
 
-      applyFilter();
-      renderFavorit();
+      applyFilter();      // re-render kartu di beranda dgn rating baru
+      renderFavorit();    // re-render favorit jika terbuka
       closeModal();
     });
 
     // ================== INIT ==================
-    applyFilter();
-    renderFavorit();
-    activateNav("beranda");
+    applyFilter();   // render awal beranda
+    renderFavorit(); // siapkan konten favorit
+    activateNav("beranda"); // pastikan default tampilan & highlight
+    
 
-    // === CHATBOT AI ===
+    // === CHATBOT AI (biarkan seperti aslinya) ===
     (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized")
     {window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}
     window.chatbase.q.push(arguments)};
