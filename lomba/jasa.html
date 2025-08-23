@@ -46,6 +46,18 @@
       to   { transform: translate(-50%, -50%) rotate(-180deg) translateX(22px); }
     }
     
+    @keyframes dot-bounce {
+      0%   { transform: scale(0.9); }
+      50%  { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .dot-bounce {
+      animation: dot-bounce 0.3s ease-out;
+    }
+    .dot-hover:hover {
+      animation: dot-bounce 0.2s ease-out;
+    }
+
   /* chatbot */
     :root {
       --c1: #383b4e;  
@@ -149,7 +161,7 @@
           <button data-kategori="Tukang" class="kategori-btn px-4 py-1 border rounded-full border-[#798e9d]">Tukang</button>
           <button data-kategori="Guru Les" class="kategori-btn px-4 py-1 border rounded-full border-[#798e9d]">Guru Les</button>
           <button data-kategori="Penjahit" class="kategori-btn px-4 py-1 border rounded-full border-[#798e9d]">Jahit</button>
-          <button data-kategori="Jasa Tani" class="kategori-btn px-4 py-1 border rounded-full border-[#798e9d]">Jasa Tani</button>
+          <button data-kategori="Tani" class="kategori-btn px-4 py-1 border rounded-full border-[#798e9d]">Tani</button>
           <button data-kategori="Lainnya" class="kategori-btn px-4 py-1 border rounded-full border-[#798e9d]">Lainnya</button>
         </div>
       </section>
@@ -157,12 +169,7 @@
       <!-- LIST JASA -->
       <section class="max-w-6xl mx-auto px-4 pb-12">
         <div id="jasaGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
-        <div class="flex justify-center space-x-3 mt-6">
-          <button class="px-3 py-1 border border-gray-400 rounded-full">1</button>
-          <button class="px-3 py-1 border border-gray-400 rounded-full">2</button>
-          <button class="px-3 py-1 border border-gray-400 rounded-full">3</button>
-          <span class="px-3 py-1">...</span>
-        </div>
+        <div id="pagination" class="flex justify-center space-x-3 mt-6"></div>
       </section>
     </section>
 
@@ -292,12 +299,22 @@
   <script>
     // ================== DATA JASA ==================
     const jasaData = [
-      { id:1, nama:"Budi - Tukang Kebun", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:100000, deskripsi:"Merawat taman, menanam bunga, pemangkasan pohon.", wa:"628123001001", ratingNumber:4.7, ratingCount:23 },
-      { id:2, nama:"Pak Kio - Tukang Kayu", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:150000, deskripsi:"Spesialis furniture, rak, dan perbaikan pintu/jendela.", wa:"628123001002", ratingNumber:4.9, ratingCount:31 },
-      { id:3, nama:"Bu Selly - Guru Les SD", kategori:"Guru Les", lokasi:"Desa Kebon Agong", harga:50000, deskripsi:"Matematika & Bahasa Indonesia kelas 1-6.", wa:"628123001003", ratingNumber:4.5, ratingCount:18 },
-      { id:4, nama:"Siti - Penjahit", kategori:"Penjahit", lokasi:"Desa Kebon Agung", harga:70000, deskripsi:"Menjahit pakaian, permak celana, kebaya, seragam sekolah.", wa:"628123001004", ratingNumber:4.3, ratingCount:14 },
-      { id:5, nama:"Pak Hasan - Tukang Bangunan", kategori:"Tukang", lokasi:"Desa Asembakor", harga:200000, deskripsi:"Ahli membuat pondasi, tembok, renovasi rumah.", wa:"628123001005", ratingNumber:4.8, ratingCount:40 },
-      { id:6, nama:"Pak Tani - Jasa Tani", kategori:"Jasa Tani", lokasi:"Desa Sumberlele", harga:80000, deskripsi:"Mengolah sawah, menanam padi, panen.", wa:"628123001006", ratingNumber:4.6, ratingCount:21 }
+      { id:1, nama:"Budi - Tukang Kebun", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:100000, deskripsi:"Merawat taman, menanam bunga, pemangkasan pohon.", wa:"6289516326049", ratingNumber:4.7, ratingCount:23 },
+      { id:2, nama:"Pak Kio - Tukang Kayu", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:150000, deskripsi:"Spesialis furniture, rak, dan perbaikan pintu/jendela.", wa:"6282331822448", ratingNumber:4.9, ratingCount:31 },
+      { id:3, nama:"Bu Selly - Guru Les SD", kategori:"Guru Les", lokasi:"Desa Kebon Agong", harga:50000, deskripsi:"Matematika & Bahasa Indonesia kelas 1-6.", wa:"6282142103474", ratingNumber:4.5, ratingCount:18 },
+      { id:4, nama:"Siti - Penjahit", kategori:"Penjahit", lokasi:"Desa Kebon Agung", harga:70000, deskripsi:"Menjahit pakaian, permak celana, kebaya, seragam sekolah.", wa:"6282143257982", ratingNumber:4.3, ratingCount:14 },
+      { id:5, nama:"Pak Hasan - Tukang Bangunan", kategori:"Tukang", lokasi:"Desa Asembakor", harga:200000, deskripsi:"Ahli membuat pondasi, tembok, renovasi rumah.", wa:"6281359683249", ratingNumber:4.8, ratingCount:40 },
+      { id:6, nama:"Pak Tani - Petani", kategori:"Tani", lokasi:"Desa Sumberlele", harga:80000, deskripsi:"Mengolah sawah, menanam padi, panen.", wa:"6289516326049", ratingNumber:4.6, ratingCount:21 },
+      { id:7, nama:"Rina - Guru Les Bahasa Inggris", kategori:"Guru Les", lokasi:"Desa Karanganyar", harga:60000, deskripsi:"Belajar grammar, speaking, dan persiapan ujian.", wa:"6282331822448", ratingNumber:4.8, ratingCount:27 },
+      { id:8, nama:"Andi - Servis Elektronik", kategori:"Lainnya", lokasi:"Desa Asembakor", harga:120000, deskripsi:"Perbaikan TV, kipas angin, rice cooker, kulkas kecil.", wa:"6282142103474", ratingNumber:4.4, ratingCount:19 },
+      { id:9, nama:"Pak Joko - Tukang Las", kategori:"Tukang", lokasi:"Desa Sumberlele", harga:180000, deskripsi:"Jasa las pagar, kanopi, pintu besi, teralis jendela.", wa:"6282143257982", ratingNumber:4.7, ratingCount:22 },
+      { id:10, nama:"Ibu Wati - Catering Harian", kategori:"Lainnya", lokasi:"Desa Kebon Agung", harga:25000, deskripsi:"Nasi kotak, lauk rumahan, catering acara kecil.", wa:"6281359683249", ratingNumber:4.6, ratingCount:35 },
+      { id:11, nama:"Dedi - Montir Motor", kategori:"Lainnya", lokasi:"Desa Karanganyar", harga:90000, deskripsi:"Servis ringan motor, ganti oli, tune-up, perbaikan rem.", wa:"6289516326049", ratingNumber:4.5, ratingCount:29 },
+      { id:12, nama:"Ani - Makeup Artist", kategori:"Lainnya", lokasi:"Desa Asembakor", harga:150000, deskripsi:"Makeup wisuda, pesta, pengantin sederhana.", wa:"6282331822448", ratingNumber:4.9, ratingCount:17 },
+      { id:13, nama:"Hendra - Fotografer", kategori:"Lainnya", lokasi:"Desa Sumberlele", harga:300000, deskripsi:"Foto acara, prewedding, dokumentasi keluarga.", wa:"6282142103474", ratingNumber:4.8, ratingCount:24 },
+      { id:14, nama:"Yuni - Baby Sitter", kategori:"Lainnya", lokasi:"Desa Kebon Agung", harga:120000, deskripsi:"Mengasuh bayi & anak kecil dengan penuh kasih.", wa:"6282143257982", ratingNumber:4.7, ratingCount:16 },
+      { id:15, nama:"Pak Darman - Ojek Desa", kategori:"Lainnya", lokasi:"Desa Karanganyar", harga:20000, deskripsi:"Antar jemput warga dalam desa & antar barang.", wa:"6289516326049", ratingNumber:4.4, ratingCount:33 },
+      { id:16, nama:"Lina - Penjual Kue", kategori:"Lainnya", lokasi:"Desa Asembakor", harga:5000, deskripsi:"Kue basah, kue kering, cocok untuk acara hajatan.", wa:"6282331822448", ratingNumber:4.6, ratingCount:28 }
     ];
 
     // Muat pembaruan rating tersimpan (localStorage)
@@ -328,34 +345,93 @@
     }
 
     // ================== RENDER CARD BERANDA ==================
-    function renderJasa(data){
-      jasaGrid.innerHTML = "";
-      if(data.length === 0){
-        jasaGrid.innerHTML = `<p class="col-span-3 text-center text-gray-600">Tidak ada jasa ditemukan</p>`;
-        return;
-      }
-      data.forEach(j => {
-        const isFav = favoritData.includes(j.id);
-        const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo "+j.nama+", saya tertarik menggunakan jasa Anda.")}`;
-        const [stars, paren] = [ratingLabel(j).split(" ")[0], `(${j.ratingNumber.toFixed(1)})`];
+    // === PAGINATION ===
+    let currentPage = 1;
+    const itemsPerPage = 6;
 
-        jasaGrid.innerHTML += `
-          <div class="card bg-white rounded-xl shadow-md p-4">
-            <h3 class="font-bold text-lg">${j.nama}</h3>
-            <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
-            <p class="font-semibold mb-2 text-[#798e9d]">Rp ${j.harga.toLocaleString("id-ID")} / sesi</p>
-            <div class="flex items-center mb-4">
-              <span class="text-yellow-400">${stars}</span>
-              <span class="ml-2 text-sm text-gray-500">${paren}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <a href="${waLink}" target="_blank" rel="noopener" class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</a>
-              <button class="ulasan-btn text-sm text-[#4c3d3e]" data-id="${j.id}">Ulas</button>
-              <button class="favorite-btn ${isFav ? "text-red-500" : "text-gray-400"} text-lg" data-id="${j.id}">♥</button>
-            </div>
-          </div>
-        `;
+  function renderPagination(totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const container = document.querySelector("#pagination");
+    container.innerHTML = "";
+
+    for (let i = 1; i <= totalPages; i++) {
+      const dot = document.createElement("button");
+      dot.className =
+        (i === currentPage
+          ? "w-3 h-3 bg-[#383b4e] scale-100 dot-bounce"
+          : "w-3 h-3 bg-white hover:bg-[#798e9d] scale-100") +
+        " rounded-full border border-[#383b4e] transition-all duration-300 dot-hover";
+
+      dot.addEventListener("click", () => {
+        currentPage = i;
+        applyFilter(); // render ulang sesuai halaman
       });
+
+      container.appendChild(dot);
+    }
+  }
+
+    function renderJasa(data) {
+      jasaGrid.innerHTML = "";
+
+      // hitung index untuk halaman ini
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageData = data.slice(start, end);
+
+      if (pageData.length === 0) {
+        jasaGrid.innerHTML =
+          `<p class="col-span-3 text-center text-gray-600">Tidak ada jasa ditemukan</p>`;
+      } else {
+        pageData.forEach(j => {
+          const isFav = favoritData.includes(j.id);
+          const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo " + j.nama + ", saya tertarik menggunakan jasa Anda.")}`;
+          const [stars, paren] = [ratingLabel(j).split(" ")[0], `(${j.ratingNumber.toFixed(1)})`];
+
+          jasaGrid.innerHTML += `
+            <div class="card bg-white rounded-xl shadow-md p-4">
+              <h3 class="font-bold text-lg">${j.nama}</h3>
+              <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
+              <p class="font-semibold mb-2 text-[#798e9d]">Rp ${j.harga.toLocaleString("id-ID")} / sesi</p>
+              <div class="flex items-center mb-4">
+                <span class="text-yellow-400">${stars}</span>
+                <span class="ml-2 text-sm text-gray-500">${paren}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <a href="${waLink}" target="_blank" rel="noopener" class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</a>
+                <button class="ulasan-btn text-sm text-[#4c3d3e]" data-id="${j.id}">Ulas</button>
+                <button class="favorite-btn ${isFav ? "text-red-500" : "text-gray-400"} text-lg" data-id="${j.id}">♥</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      // render pagination sesuai jumlah data
+      renderPagination(data.length);
+
+      // Event tombol favorit
+      document.querySelectorAll(".favorite-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = parseInt(btn.dataset.id);
+          if (favoritData.includes(id)) {
+            favoritData = favoritData.filter(f => f !== id);
+          } else {
+            favoritData.push(id);
+          }
+          applyFilter();
+          renderFavorit();
+        });
+      });
+
+      // Event tombol ulas
+      document.querySelectorAll(".ulasan-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          openUlasModal(parseInt(btn.dataset.id));
+        });
+      });
+    }
+
 
       // Event tombol favorit (di kartu)
       document.querySelectorAll(".favorite-btn").forEach(btn=>{
@@ -377,7 +453,7 @@
           openUlasModal(parseInt(btn.dataset.id));
         });
       });
-    }
+      
 
     // ================== RENDER FAVORIT ==================
     function renderFavorit(){
@@ -425,7 +501,7 @@
     }
 
     // ================== FILTER ==================
-    function applyFilter(){
+    function applyFilter() {
       let keyword = searchInput.value.toLowerCase();
       let lokasi = lokasiInput.value.toLowerCase();
       let maxHarga = parseInt(rangeHarga.value);
@@ -439,9 +515,15 @@
         return cocokNama && cocokLokasi && cocokHarga && cocokKategori;
       });
 
+      // reset halaman kalau melebihi jumlah hasil
+      if (currentPage > Math.ceil(hasil.length / itemsPerPage)) {
+        currentPage = 1;
+      }
+
       labelHarga.innerText = `≤ Rp.${maxHarga.toLocaleString("id-ID")}`;
       renderJasa(hasil);
     }
+
 
     // ================== EVENT FILTER UI ==================
     searchInput.addEventListener("input", applyFilter);
