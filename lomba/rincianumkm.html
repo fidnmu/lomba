@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kartu UMKM </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animasi gradien background */
+    body {
+      background: linear-gradient(-45deg, #2F4156, #567C8D, #C8D9E6, #F5EFEB);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    /* Card blur */
+    .glass-card {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    /* Modal backdrop */
+    .modal-bg {
+      background: rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CARD -->
+  <div class="glass-card w-[800px] max-w-full flex rounded-2xl overflow-hidden relative">
+    <!-- Foto -->
+    <div class="w-1/2">
+      <img src="https://i.pinimg.com/1200x/06/e7/cf/06e7cf755c3530046f684095d69a6084.jpg" alt="Pak Rudi" class="w-full h-full object-cover">
+    </div>
+
+    <!-- Info -->
+    <div class="w-1/2 p-6 flex flex-col justify-between text-[#2F4156]">
+      <div>
+        <p class="text-sm uppercase tracking-wider font-semibold text-[#567C8D]">Makanan & Minuman</p>
+        <h2 class="text-2xl font-bold">Madu Hutan Pak Rudi</h2>
+        
+        <!-- Rating di card utama -->
+        <p id="mainRating" class="text-gray-700 mt-2 text-sm">
+          ☆☆☆☆☆ (0.0/5)
+        </p>
+
+        <!-- Alamat -->
+        <p class="text-sm text-[#2F4156] mt-1">
+          📍 Desa Kebon Agong, RT 04/RW 02, Kec. Kraksaan
+        </p>
+
+        <!-- Deskripsi -->
+        <p class="text-gray-700 mt-2 text-sm">
+            Madu Hutan Pak Rudi merupakan produk asli dari lebah liar yang dipanen secara tradisional 
+            dari hutan sekitar Desa Sumberlele. Madu ini dikenal murni tanpa campuran, memiliki rasa manis alami, 
+            serta dipercaya bermanfaat untuk menjaga daya tahan tubuh, meningkatkan energi, dan membantu pemulihan kesehatan.
+        </p>
+
+        <label class="block mt-4 text-sm font-semibold">Pilihan Produk:</label>
+        <select class="border rounded-lg px-2 py-1 bg-white/70 text-[#2F4156]">
+          <option>Botol 250ml</option>
+          <option>Botol 500ml</option>
+          <option>Botol 1 Liter</option>
+        </select>
+
+        <p class="text-xl font-bold mt-4">Rp75.000 <span class="text-base font-normal">/ proyek</span></p>
+      </div>
+
+      <!-- Tombol -->
+      <div class="flex gap-3 mt-4 items-center">
+        <button class="px-4 py-2 rounded-xl bg-[#567C8D] hover:bg-[#2F4156] text-white font-semibold">Hubungi</button>
+        <button onclick="openModal()" class="px-4 py-2 rounded-xl bg-[#C8D9E6] hover:bg-[#567C8D] text-[#2F4156] font-semibold">Ulas</button>
+        <button id="favBtn" class="ml-auto text-2xl text-gray-500 hover:text-red-500">♡</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ULAS -->
+  <div id="modalUlas" class="hidden fixed inset-0 flex items-center justify-center modal-bg z-50">
+    <div class="bg-white rounded-xl shadow-lg w-[400px] p-6 relative">
+      <button onclick="closeModal()" class="absolute top-3 right-3 px-3 py-1 rounded-md bg-[#F5EFEB] text-[#2F4156]">Tutup</button>
+      <h3 class="text-xl font-semibold mb-4">Beri Ulasan</h3>
+      
+      <!-- Rating -->
+      <div class="flex items-center mb-3">
+        <label class="mr-2">Rating:</label>
+        <div id="stars" class="flex text-2xl cursor-pointer">
+          <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        </div>
+        <span id="ratingVal" class="ml-2 text-sm">(0)</span>
+      </div>
+
+      <!-- Komentar -->
+      <textarea id="commentInput" placeholder="Tulis komentar (opsional)" class="w-full border rounded-lg p-2 mb-4"></textarea>
+
+      <!-- Tombol Kirim -->
+      <button onclick="submitReview()" class="w-full py-2 rounded-lg bg-[#2F4156] text-white font-semibold">Kirim</button>
+    </div>
+  </div>
+
+  <script>
+    // DATA RATING
+    let ratings = [];
+    let currentRating = 0;
+
+    // Modal functions
+    function openModal() {
+      document.getElementById("modalUlas").classList.remove("hidden");
+    }
+    function closeModal() {
+      document.getElementById("modalUlas").classList.add("hidden");
+    }
+
+    // Favorit toggle
+    const favBtn = document.getElementById("favBtn");
+    let fav = false;
+    favBtn.addEventListener("click", () => {
+      fav = !fav;
+      favBtn.textContent = fav ? "❤️" : "♡";
+    });
+
+    // Rating stars di modal
+    const stars = document.querySelectorAll("#stars span");
+    const ratingVal = document.getElementById("ratingVal");
+    stars.forEach((star, i) => {
+      star.addEventListener("click", () => {
+        currentRating = i+1;
+        stars.forEach((s, j) => s.textContent = j <= i ? "★" : "☆");
+        ratingVal.textContent = `(${currentRating})`;
+      });
+    });
+
+    // Kirim ulasan
+    function submitReview() {
+      if (currentRating === 0) {
+        alert("Silakan pilih rating dulu.");
+        return;
+      }
+      
+      ratings.push(currentRating);
+
+      // hitung rata-rata
+      let avg = ratings.reduce((a,b) => a+b, 0) / ratings.length;
+      avg = avg.toFixed(1);
+
+      // update rating di card utama
+      let mainRating = document.getElementById("mainRating");
+      let starsText = "";
+      for (let i = 1; i <= 5; i++) {
+        starsText += i <= Math.round(avg) ? "★" : "☆";
+      }
+      mainRating.textContent = `${starsText} (${avg}/5)`;
+
+      // reset modal
+      document.getElementById("commentInput").value = "";
+      stars.forEach(s => s.textContent = "☆");
+      currentRating = 0;
+      ratingVal.textContent = "(0)";
+      closeModal();
+    }
+  </script>
+
+</body>
+</html>
