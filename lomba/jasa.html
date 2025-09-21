@@ -51,14 +51,12 @@
       50%  { transform: scale(1.2); }
       100% { transform: scale(1); }
     }
-    .dot-bounce {
-      animation: dot-bounce 0.3s ease-out;
-    }
+
     .dot-hover:hover {
       animation: dot-bounce 0.2s ease-out;
     }
 
-  /* chatbot */
+  /* logo chatbot */
     :root {
       --c1: #383b4e;  
       --c2: #bab2a7;  
@@ -91,6 +89,7 @@
         <button data-target="riwayat" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Riwayat</button>
         <button data-target="batal" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Batal</button>
         <button data-target="favorit" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Favorit</button>
+        <button data-target="andalan" class="nav-btn px-3 py-1 rounded-lg hover:bg-[#bab2a7]">Andalan</button>
       </nav>
 
       <!-- Burger Menu Button -->
@@ -120,6 +119,7 @@
       <button data-target="riwayat" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Riwayat</button>
       <button data-target="batal" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Batal</button>
       <button data-target="favorit" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Favorit</button>
+      <button data-target="andalan" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Andalan</button>
       <!-- Profil mobile -->
       <a href="/lomba/profil.html" class="block px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Profil</a>
       <a href="/lomba/login.html" class="block px-3 py-2 rounded-lg hover:bg-[#bab2a7]">Log Out</a>
@@ -174,22 +174,29 @@
     </section>
 
     <!-- SECTION TAMBAHAN -->
-    <main id="aktif" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center ">
+    <section id="aktif" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center ">
       <p class="text-lg text-gray-600">Belum ada jasa aktif.</p>
-    </main>
+    </section>
 
-    <main id="riwayat" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
+    <section id="riwayat" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
       <p class="text-lg text-gray-600">Riwayat transaksi akan muncul di sini.</p>
-    </main>
+    </section>
 
-    <main id="batal" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
+    <section id="batal" class="section hidden max-w-6xl mx-auto px-4 py-12 text-center">
       <p class="text-lg text-gray-600">Belum ada transaksi batal.</p>
-    </main>
+    </section>
 
-    <main id="favorit" class="section hidden max-w-6xl mx-auto px-4 py-12">
+    <section id="favorit" class="section hidden max-w-6xl mx-auto px-4 py-12">
       <h2 class="text-2xl font-bold mb-6 text-center">Favorit Saya</h2>
       <div id="favorit-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-    </main>
+    </section>
+
+    <section id="andalan" class="section hidden max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold mb-6 text-center"> Top 10 Rating </h2>
+      <div id="andalan-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      <!-- Dot pagination -->
+      <div id="andalan-pagination" class="flex justify-center mt-6 space-x-2"></div>
+    </section>
   </div>
 
   <!-- FOOTER -->
@@ -208,6 +215,7 @@
           <li><a href="#" class="footer-link" data-target="riwayat">Riwayat</a></li>
           <li><a href="#" class="footer-link" data-target="batal">Batal</a></li>
           <li><a href="#" class="footer-link" data-target="favorit">Favorit</a></li>
+          <li><a href="#" class="footer-link" data-target="andalan">Andalan</a></li>
         </ul>
       </div>
       <div>
@@ -421,6 +429,7 @@
           }
           applyFilter();
           renderFavorit();
+
         });
       });
 
@@ -431,30 +440,7 @@
         });
       });
     }
-
-
-      // Event tombol favorit (di kartu)
-      document.querySelectorAll(".favorite-btn").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = parseInt(btn.dataset.id);
-          if(favoritData.includes(id)){
-            favoritData = favoritData.filter(f=>f!==id);
-          }else{
-            favoritData.push(id);
-          }
-          applyFilter();  // re-render beranda
-          renderFavorit(); // update halaman favorit
-        });
-      });
-
-      // Event tombol ulas (di kartu)
-      document.querySelectorAll(".ulasan-btn").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          openUlasModal(parseInt(btn.dataset.id));
-        });
-      });
       
-
     // ================== RENDER FAVORIT ==================
     function renderFavorit(){
       favoritList.innerHTML = "";
@@ -500,6 +486,94 @@
       });
     }
 
+
+    // ================== RENDER ANDALAN ==================
+    const andalanList = document.getElementById("andalan-list");
+    const andalanPagination = document.getElementById("andalan-pagination");
+    let currentAndalanPage = 1;
+    const itemsAndalanPerPage = 6;
+
+    function renderAndalanPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsAndalanPerPage);
+      andalanPagination.innerHTML = "";
+
+      for (let i = 1; i <= totalPages; i++) {
+        const dot = document.createElement("button");
+        dot.className =
+          (i === currentAndalanPage
+            ? "w-3 h-3 bg-[#383b4e] scale-100 dot-bounce"
+            : "w-3 h-3 bg-white hover:bg-[#798e9d] scale-100") +
+          " rounded-full border border-[#383b4e] transition-all duration-300 dot-hover";
+
+        dot.addEventListener("click", () => {
+          currentAndalanPage = i;
+          renderAndalan();
+        });
+
+        andalanPagination.appendChild(dot);
+      }
+    }
+
+    function renderAndalan() {
+      // ambil hanya 10 jasa dengan rating tertinggi
+      const top10 = [...jasaData].sort((a, b) => b.ratingNumber - a.ratingNumber).slice(0, 10);
+      andalanList.innerHTML = "";
+
+      const start = (currentAndalanPage - 1) * itemsAndalanPerPage;
+      const end = start + itemsAndalanPerPage;
+      const pageData = top10.slice(start, end);
+
+      if (pageData.length === 0) {
+        andalanList.innerHTML = `<p class="col-span-3 text-center text-gray-600">Belum ada data andalan</p>`;
+      } else {
+        pageData.forEach(j => {
+          const isFav = favoritData.includes(j.id);
+          const waLink = `https://wa.me/${j.wa}?text=${encodeURIComponent("Halo " + j.nama + ", saya tertarik menggunakan jasa Anda.")}`;
+          const [stars, paren] = [ratingLabel(j).split(" ")[0], `(${j.ratingNumber.toFixed(1)})`];
+
+          andalanList.innerHTML += `
+            <div class="card bg-white rounded-xl shadow-md p-4">
+              <h3 class="font-bold text-lg">${j.nama}</h3>
+              <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
+              <p class="font-semibold mb-2 text-[#798e9d]">Rp ${j.harga.toLocaleString("id-ID")} / sesi</p>
+              <div class="flex items-center mb-4">
+                <span class="text-yellow-400">${stars}</span>
+                <span class="ml-2 text-sm text-gray-500">${paren}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <a href="${waLink}" target="_blank" rel="noopener" class="text-white px-3 py-1 rounded-lg" style="background-color:#383b4e;">Hubungi</a>
+                <button class="ulasan-btn text-sm text-[#4c3d3e]" data-id="${j.id}">Ulas</button>
+                <button class="favorite-btn ${isFav ? "text-red-500" : "text-gray-400"} text-lg" data-id="${j.id}">♥</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      renderAndalanPagination(top10.length);
+
+      // event favorit
+      document.querySelectorAll("#andalan-list .favorite-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = parseInt(btn.dataset.id);
+          if (favoritData.includes(id)) {
+            favoritData = favoritData.filter(f => f !== id);
+          } else {
+            favoritData.push(id);
+          }
+          renderAndalan();
+          renderFavorit();
+        });
+      });
+
+      // event ulasan
+      document.querySelectorAll("#andalan-list .ulasan-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          openUlasModal(parseInt(btn.dataset.id));
+        });
+      });
+    }
+
     // ================== FILTER ==================
     function applyFilter() {
       let keyword = searchInput.value.toLowerCase();
@@ -522,8 +596,9 @@
 
       labelHarga.innerText = `≤ Rp.${maxHarga.toLocaleString("id-ID")}`;
       renderJasa(hasil);
-    }
+      
 
+    }
 
     // ================== EVENT FILTER UI ==================
     searchInput.addEventListener("input", applyFilter);
@@ -547,7 +622,7 @@
     const navBtns = document.querySelectorAll(".nav-btn");
     const sections = document.querySelectorAll(".section");
     const footerLinks = document.querySelectorAll(".footer-link");
-    const validTargets = new Set(["beranda","aktif","riwayat","batal","favorit"]);
+    const validTargets = new Set(["beranda","aktif","riwayat","batal","favorit","andalan"]);
 
     function activateNav(targetId) {
       if (!validTargets.has(targetId)) targetId = "beranda";
@@ -577,7 +652,7 @@
     navBtns.forEach(btn => {
       btn.addEventListener("click", () => activateNav(btn.dataset.target));
     });
-
+    
     // Klik footer
     footerLinks.forEach(link => {
       link.addEventListener("click", e => {
@@ -585,6 +660,32 @@
         activateNav(link.dataset.target);
       });
     });
+
+    // ================== NAVIGASI ANTAR SECTION ==================
+    navBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-target");
+
+        sections.forEach(sec => sec.classList.add("hidden"));
+
+        const activeSection = document.getElementById(target);
+        if (activeSection) {
+          activeSection.classList.remove("hidden");
+
+          if (target === "favorit") renderFavorit();
+          if (target === "andalan") renderAndalan();
+        }
+
+        navBtns.forEach(b => b.classList.remove("bg-[#798e9d]", "text-white"));
+
+        btn.classList.add("bg-[#798e9d]", "text-white");
+
+        const mobileMenu = document.getElementById("mobile-menu");
+        if (mobileMenu) mobileMenu.classList.add("hidden");
+      });
+    });
+
+
 
     // ================== MODAL ULAS ==================
     const ulasModal = document.getElementById("ulasModal");
@@ -647,18 +748,23 @@
       map[j.id] = { ratingNumber: j.ratingNumber, ratingCount: j.ratingCount };
       localStorage.setItem("jasaMart_ratings", JSON.stringify(map));
 
-      applyFilter();      // re-render kartu di beranda dgn rating baru
-      renderFavorit();    // re-render favorit jika terbuka
+      applyFilter();     
+      renderFavorit();   
       closeModal();
+      
+
     });
 
+
+
     // ================== INIT ==================
-    applyFilter();   // render awal beranda
-    renderFavorit(); // siapkan konten favorit
-    activateNav("beranda"); // pastikan default tampilan & highlight
+    applyFilter();  
+    renderFavorit(); 
+    renderAndalan();
+    activateNav("beranda"); 
     
 
-    // === CHATBOT AI (biarkan seperti aslinya) ===
+    // === CHATBOT AI ===
     (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized")
     {window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}
     window.chatbase.q.push(arguments)};
