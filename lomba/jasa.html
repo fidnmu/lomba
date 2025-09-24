@@ -398,7 +398,9 @@
 
           jasaGrid.innerHTML += `
             <div class="card bg-white rounded-xl shadow-md p-4">
-              <h3 class="font-bold text-lg">${j.nama}</h3>
+              <h3 class="font-bold text-lg">
+                <a href="rincianjasa.html?id=${j.id}" class="text-black-600 hover:underline">${j.nama}</a>
+              </h3>
               <p class="text-sm mb-2">${j.deskripsi} <br> <span class="italic">${j.lokasi}</span></p>
               <p class="font-semibold mb-2 text-[#798e9d]">Rp ${j.harga.toLocaleString("id-ID")} / sesi</p>
               <div class="flex items-center mb-4">
@@ -777,3 +779,4 @@
 
 </body>
 </html>
+
